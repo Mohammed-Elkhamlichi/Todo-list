@@ -48,7 +48,6 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
                 })
                 .then((res) => {
                     const todos = res.data.todos;
-                    console.log({ completed });
                     todoDispatch({
                         type: "PATCH_TODO_IS_COMPLETED",
                         todos,

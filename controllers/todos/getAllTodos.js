@@ -7,7 +7,6 @@ const getAllTodos = async (req, res) => {
         if (!todos) res.status(404).json({ success: false });
         res.status(200).json({ success: true, todos });
     } catch (error) {
-        console.log(error);
         res.status(500).json({ success: false });
     }
 };

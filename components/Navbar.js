@@ -24,7 +24,7 @@ const Navbar = () => {
                 className={`bg-slate-700 z-50 text-sky-500 flex flex-row justify-start items-center ${
                     navFixed ? "fixed top-0 right-0  left-0" : ""
                 }`}>
-                <h1 className={`flex-1 m-2 animate-pulse font-bold text-xl text-white`}>
+                <h1 className={`flex-1 m-2   font-bold text-xl text-white`}>
                     <Link href="/">
                         <a>Todo App</a>
                     </Link>

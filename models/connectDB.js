@@ -8,8 +8,7 @@ const connectDB = () => {
             useUnifiedTopology: true,
         });
         if (connected) {
-            console.log(MONGODB_URI);
-            console.log("Server has been connected to the DB successfully NextJS");
+            console.log("NextJS Connect Success with MongoDB");
         }
     } catch (error) {
         console.log(error);

@@ -8,11 +8,10 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
     let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
 
     const [todoState, todoDispatch] = useTodoContext();
-    const [todoTitle, setTodoTitle] = useState();
+    const [todoTitle, setTodoTitle] = useState("");
 
     const handleUpdateTodoForm = async (e) => {
         try {
-            console.log(todoTitle);
             if (todoState?.isUpdateTodo) {
                 e.preventDefault();
 
@@ -37,7 +36,7 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
                             todoAlert: { msg: "todo has been update", classes: "bg-green-500" },
                             isLoading: false,
                         });
-                        setTodoTitle(null);
+                        setTodoTitle("");
                     })
                     .catch((err) => console.log(err));
                 todoInput.current.value = "";
@@ -52,7 +51,7 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
                 todoState.isUpdateTodo ? handleUpdateTodoForm(e) : handleAddTodoForm(e);
             }}
             id="todo_form"
-            className="flex flex-row  w-full sm:w-2/3 m-auto my-5 justify-between items-center bg">
+            className="flex flex-col sm:flex-row  w-full sm:w-2/3 m-auto my-5 justify-between items-center bg">
             <div className="w-3/4 mx-1 flex flex-row items-center">
                 <input
                     onChange={(e) => {
@@ -62,14 +61,14 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
                     type="text"
                     name="title"
                     id="title"
-                    className="px-2 py-2  w-full outline-0 bod hover:border-2 hover:border-white rounded-lg hover:outline-dotted hover:outline-slate-800"
-                    placeholder="Todo Title"
+                    className="px-2 py-2  w-full outline-0 bod  rounded hover:outline-dotted hover:outline-slate-800"
+                    placeholder="Todo"
                 />
             </div>
-            <div className="w-1/4 mx-1">
+            <div className="w-1/4 mx-1 mt-5 sm:mt-0">
                 <button
                     type="submit"
-                    className="  py-2 bg-gray-400 w-full hover:bg-slate-700 hover:border-2 rounded-lg hover:text-white border-white hover:font-bold">
+                    className="py-2 bg-green-600 border-white w-full  border-2 rounded-lg hover:text-white  hover:font-bold">
                     {todoState?.isUpdateTodo && "Update"}
                     {todoState?.isAddTodo && "Add"}
                 </button>

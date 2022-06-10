@@ -7,10 +7,7 @@ const Layout = ({ children }) => {
         <>
             <Head>
                 <title>Todo App</title>
-                <meta
-                    name="description"
-                    content="Todo app using nextJS, react.js, axios, tailwind CSS"
-                />
+                <meta name="description" content="Todo app using nextJS, react.js, axios, tailwind CSS" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <header>

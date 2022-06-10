@@ -7,17 +7,12 @@ import getAllTodos from "../../../../controllers/todos/getAllTodos";
 import initMiddleware from "../../../../lib/todos/middleware";
 // Middlewares
 const cors = require("cors");
-const bodyParser = require("body-parser");
 
-// models
-import Todo from "../../../../models/todos/Todo";
 // DB Connection
 import { connectDB } from "../../../../models/connectDB";
 
 const handler = async (req, res) => {
     await initMiddleware(req, res, cors({ methods: ["GET", "POST"] }));
-    bodyParser.json();
-    bodyParser.urlencoded({ extended: false });
     await connectDB();
     const { method } = req;
     switch (method) {

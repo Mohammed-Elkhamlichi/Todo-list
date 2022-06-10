@@ -23,7 +23,6 @@ const createOneTodo = async (req, res) => {
             return res.status(202).json({ success: false, msg: "Todo already exist" });
         }
     } catch (error) {
-        console.log(error);
         return res.status(501).json({ success: false, msg: "error" });
     }
 };
