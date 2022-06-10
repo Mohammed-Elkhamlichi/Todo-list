@@ -2,7 +2,8 @@ import Link from "next/link";
 import { useRef } from "react";
 import axios from "axios";
 
-const apiUrl = "http://localhost:3000/api/v1/users/register";
+// const apiUrl = "http://localhost:3000/api/v1/users/register";
+let apiUrl = "https://todo-list-mem.vercel.app/api/v1/users/register";
 
 const Register = () => {
     const emailRef = useRef("");

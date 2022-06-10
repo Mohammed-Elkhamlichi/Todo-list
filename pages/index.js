@@ -7,8 +7,8 @@ import TodoForm from "../components/todos/TodoForm";
 import LoginRegisterForms from "../components/users/LorginRegisterForms";
 import TodoList from "../components/todos/TodoList";
 
-let apiUrl = "http://localhost:3000/api/v1/todos";
-// let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
+// let apiUrl = "http://localhost:3000/api/v1/todos";
+let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
 // You should use getServerSideProps when:
 // - Only if you need to pre-render a page whose data must be fetched at request time
 export const getServerSideProps = async (ctx) => {
