@@ -14,7 +14,6 @@ export const todoReducer = (state, action) => {
     let todoAlert = action.todoAlert ? action.todoAlert : state.todoAlert;
     let todo = action.todo ? action.todo : state.todo;
     let todos = action.todos ? action.todos : state.todos;
-    console.log({ isLoading, todoAlert, todo, todos });
     switch (action.type) {
         // get all todos
         case "GET_TODOS":
@@ -27,9 +26,6 @@ export const todoReducer = (state, action) => {
             };
         // create new todo
         case "CERATE_NEW_TODO":
-            console.log({ create: isLoading });
-            console.log("CERATE_NEW_TODO");
-            console.log({ create_todo_state: { state, action } });
             return {
                 ...state,
                 todos,
@@ -39,11 +35,7 @@ export const todoReducer = (state, action) => {
                 isLoading,
             };
         // when the user click on btn edit todo
-
         case "BTN_UPDATE_TODO_CLICKED":
-            console.log({ btn_update: isLoading });
-            console.log("BTN_UPDATE_TODO_CLICKED");
-
             return {
                 ...state,
                 todo,
@@ -52,11 +44,8 @@ export const todoReducer = (state, action) => {
                 todoAlert,
                 isLoading,
             };
-
         // update an existing todo
         case "FORM_UPDATE_TODO_SUBMIT":
-            console.log({ update: isLoading });
-            console.log("FORM_UPDATE_TODO_SUBMIT");
             return {
                 ...state,
                 todo,
@@ -66,32 +55,24 @@ export const todoReducer = (state, action) => {
                 isLoading,
                 todoAlert,
             };
-
         // update the state of an existing todo
         case "PATCH_TODO_IS_COMPLETED":
-            console.log({ update_compl: isLoading });
-            console.log("PATCH_TODO_IS_COMPLETED");
             return {
                 ...state,
                 todos,
                 isLoading,
                 todoAlert,
             };
-
         // deleting todo
         case "DELETE_TODO":
-            console.log({ delete: isLoading });
-            console.log("DELETE_TODO");
             return {
                 ...state,
                 todos,
                 isLoading,
                 todoAlert,
             };
-
         // defalut reducer
         default:
-            console.log({ default: isLoading });
             return {
                 ...state,
                 isLoading,
