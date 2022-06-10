@@ -1,0 +1,120 @@
+import { TrashIcon, PencilAltIcon } from "@heroicons/react/solid";
+import axios from "axios";
+import { useState } from "react";
+import { useTodoContext } from "../../context/state";
+
+const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
+    // context api with reducer
+    const [todoState, todoDispatch] = useTodoContext();
+    // the checkbox state ( todo completed or not)
+    const [isCompletedTodo, setIsCompletedTodo] = useState(false);
+
+    // let apiUrl = "http://localhost:8000/api/v1/";
+    let apiUrl = "http://localhost:3000/api/v1/todos";
+    let { _id, title, completed } = todo;
+
+    // Delete Todo Function
+    const handledDeleteTodoBtn = (id) => {
+        try {
+            todoDispatch({ isLoading: true });
+            axios
+                .delete(`${apiUrl}/${id}`, {
+                    params: { api_key: "Mohammed_delete" },
+                })
+                .then((res) => {
+                    todoDispatch({
+                        type: "DELETE_TODO",
+                        todos: res.data.todos,
+                        isLoading: false,
+                        todoAlert: { msg: "todo deleted", classes: "bg-green-500" },
+                    });
+                })
+                .catch((err) => console.log(err));
+            createTodoAlerts(todoState?.todoAlert.msg, todoState?.todoAlert.classes);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    // when the Check box state change
+    const handleCheckBox = (e) => {
+        try {
+            todoDispatch({ isLoading: true });
+            axios
+                .patch(`${apiUrl}/${_id}`, {
+                    _id,
+                    completed: isCompletedTodo,
+                })
+                .then((res) => {
+                    const todos = res.data.todos;
+                    console.log({ completed });
+                    todoDispatch({
+                        type: "PATCH_TODO_IS_COMPLETED",
+                        todos,
+                        todoAlert: {
+                            msg: `${isCompletedTodo ? "todo completed" : "todo not completed"}`,
+                            classes: "bg-green-500",
+                        },
+                        isLoading: false,
+                    });
+                })
+                .catch((err) => console.log(err));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    // Update Todo Function
+    const handleUpdateTodoBtn = (todo) => {
+        try {
+            todoDispatch({ isLoading: true });
+            window.scrollTo({ top: 0, behavior: "auto" });
+            todoInput.current.value = todo.title;
+            todoDispatch({ type: "BTN_UPDATE_TODO_CLICKED", todo, isLoading: false });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    return (
+        <div
+            className={`bg-sky-400 p-2 my-2 flex flex-row justify-between items-center border-solid rounded-tl-lg rounded-bl-lg ${
+                completed ? "border-l-8 border-black " : "border-l-8 border-white"
+            }`}
+            key={_id}>
+            <div>
+                <input
+                    onChange={(e) => {
+                        setIsCompletedTodo(!isCompletedTodo);
+                        handleCheckBox(e);
+                    }}
+                    type="checkbox"
+                    name="completed"
+                    id="completed"
+                    className="h-8 w-6 "
+                    ref={completedRef}
+                    checked={completed}
+                />
+            </div>
+            <div className="text-left">
+                {completed ? (
+                    <h1>
+                        <del>{title}</del>
+                    </h1>
+                ) : (
+                    <h1>{title}</h1>
+                )}
+            </div>
+            <div className="flex flex-row ">
+                <div className="h-7 w-7 text-sm text-red-600 mx-2 hover:animate-pulse cursor-pointer">
+                    <TrashIcon onClick={() => handledDeleteTodoBtn(_id)} />
+                </div>
+                <div className="h-7 w-7 text-sm mx-2 hover:animate-pulse cursor-pointer">
+                    <PencilAltIcon onClick={() => handleUpdateTodoBtn(todo)} />
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Todo;
