@@ -8,6 +8,7 @@ let todoSchema = new mongoose.Schema({
         index: true,
     },
     completed: { type: Boolean, default: false },
+    created: { type: Date, default: new Date().getDate() },
 });
 
 const Todo = mongoose.models.Todo || mongoose.model("Todo", todoSchema);
