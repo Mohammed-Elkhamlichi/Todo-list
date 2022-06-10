@@ -41,7 +41,7 @@ export default function Home() {
         try {
             todoDispatch({ isLoading: true });
             axios
-                .get(apiUrl, { params: { api_key: "Mohammed_get" } })
+                .get(apiUrl)
                 .then((res) => {
                     todoDispatch({ type: "GET_TODOS", todos: res.data.todos, isLoading: false });
                 })
