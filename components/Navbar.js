@@ -30,24 +30,17 @@ const Navbar = () => {
                     </Link>
                 </h1>
                 <ul className="flex flex-row m-2">
-                    {!userState.jwt ? (
-                        <li className="m-2">
-                            <Link href="/">
-                                <a className="p-2  hover:font-bold text-lg hover:animate-bounce">Log In</a>
-                            </Link>
-                        </li>
-                    ) : (
-                        <li
-                            className="m-2"
-                            onClick={() => {
-                                localStorage.clear();
-                                userState.jwt = null;
-                            }}>
-                            <Link href="/">
-                                <a className="p-2  hover:font-bold text-lg hover:animate-bounce">Log Out</a>
-                            </Link>
-                        </li>
-                    )}
+                    <li className="m-2">
+                        <Link href="/users/login">
+                            <a className="p-2  hover:font-bold text-lg hover:animate-bounce">Log In</a>
+                        </Link>
+                    </li>
+
+                    <li className="m-2">
+                        <Link href="/users/login">
+                            <a className="p-2  hover:font-bold text-lg hover:animate-bounce">Log Out</a>
+                        </Link>
+                    </li>
                 </ul>
             </nav>
         </>

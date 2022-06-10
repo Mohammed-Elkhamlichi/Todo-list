@@ -14,21 +14,14 @@ export const userReducer = async (state, action) => {
         case "REGISTER":
             return { ...state };
         case "IS_LOGIN":
-            const email = await action.email;
-            const jwt = await action.jwt;
-            localStorage.setItem("access_token", jwt);
-            return { ...state, isLogin: action.isLogin, jwt, user: email };
+            return { ...state };
         case "SET_COOKIES_JWT":
             return {
                 ...state,
-                jwt: action.jwt,
-                users: action.users,
-                user: action.user,
             };
         case "IS_TOKEN":
             return { ...state };
         default:
-            const isOpenAuthWindow = action.isOpenAuthWindow || false;
-            return { ...state, isOpenAuthWindow };
+            return { ...state };
     }
 };

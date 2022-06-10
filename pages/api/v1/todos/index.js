@@ -10,10 +10,10 @@ const cors = require("cors");
 
 // DB Connection
 import { connectDB } from "../../../../models/connectDB";
-
+connectDB();
 const handler = async (req, res) => {
     await initMiddleware(req, res, cors({ methods: ["GET", "POST"] }));
-    await connectDB();
+
     const { method } = req;
     switch (method) {
         case "GET":

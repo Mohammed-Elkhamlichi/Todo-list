@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useTodoContext } from "../../context/state";
 
 const TodoForm = ({ todoInput, handleAddTodoForm }) => {
-    // let apiUrl = "http://localhost:3000/api/v1/todos";
-    let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
+    let apiUrl = "http://localhost:3000/api/v1/todos";
+    // let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
 
     const [todoState, todoDispatch] = useTodoContext();
     const [todoTitle, setTodoTitle] = useState("");
@@ -61,9 +61,7 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
                 />
             </div>
             <div className="w-1/4 mx-1 mt-5 sm:mt-0">
-                <button
-                    type="submit"
-                    className="py-2 bg-yellow-600 border-white w-full  border-2 rounded-lg hover:text-white  hover:font-bold">
+                <button type="submit" className="bg-yellow-500 my-4 py-3 px-10 rounded">
                     {todoState?.isUpdateTodo && "Update"}
                     {todoState?.isAddTodo && "Add"}
                 </button>

@@ -8,7 +8,12 @@ const Layout = ({ children }) => {
             <Head>
                 <title>Todo App</title>
                 <meta name="description" content="Todo app using nextJS, react.js, axios, tailwind CSS" />
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="author" href="https://www.linkedin.com/in/mohammed-el-khamlichi-2608011b5/" />
+                <meta name="copyright" content="Mohammed EL Khamlichi" />
+                <meta name="autho" content="Mohammed EL Khamlichi" />
+                <meta name="keywords" content="todo,list,goals,trucker,habits" />
+
+                <link rel="icon" href="/todo.ico" />
             </Head>
             <header>
                 <Navbar />

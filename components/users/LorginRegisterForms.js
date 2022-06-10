@@ -142,9 +142,7 @@ const LoginRegisterForms = ({ openAlert, setOpenAlert, isLogin, setIsLogin }) =>
     return (
         <>
             <div
-                className={`bg-slate-700 w-96 m-auto mt-16 p-5  rounded fixed top-14 right-0 left-0  z-50 opacity-95 ${
-                    openAlert ? "block" : "hidden"
-                }`}>
+                className={`bg-slate-700 w-96 m-auto mt-16 p-5  rounded fixed top-14 right-0 left-0  z-50 opacity-95 `}>
                 <XIcon className="h-8 w-8 absolute right-2 top-2 text-white" onClick={handleCloseOpenAlertBtn} />{" "}
                 <Login
                     loginAlerts={loginAlerts}

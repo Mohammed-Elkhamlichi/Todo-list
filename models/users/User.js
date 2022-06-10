@@ -1,10 +1,15 @@
 const mongoose = require("mongoose");
-const uniqueValidator = require("mongoose-unique-validator");
+// const uniqueValidator = require("mongoose-unique-validator");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
-SECRET_KEY = "MY_SECRET_KEY_NODE_MONGO";
+const SECRET_KEY = "MY_SECRET_KEY_NODE_MONGO";
 
 const UserSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: [true, "Username can't be blank"],
+        unique: true,
+    },
     email: {
         type: String,
         required: [true, "Email can't be blank"],
@@ -20,44 +25,44 @@ const UserSchema = new mongoose.Schema({
     salt: String,
 });
 
-UserSchema.methods.setPassword = (password, email) => {
+// UserSchema.methods.setPassword = (password, email) => {
     // this.salt = crypto.randomBytes(16).toString("hex");
-    let splitEmail = email.split("@");
-    splitEmail = splitEmail[0];
-    this.hash = crypto.pbkdf2Sync(password, splitEmail, 10000, 512, "sha512").toString("hex");
-    return this.hash;
-};
+//     let splitEmail = email.split("@");
+//     splitEmail = splitEmail[0];
+//     this.hash = crypto.pbkdf2Sync(password, splitEmail, 10000, 512, "sha512").toString("hex");
+//     return this.hash;
+// };
 
-UserSchema.methods.validPassword = (password, email) => {
-    let splitEmail = email.split("@");
-    splitEmail = splitEmail[0];
-    let hash = crypto.pbkdf2Sync(password, splitEmail, 10000, 512, "sha512").toString("hex");
-    return this.hash === hash;
-};
+// UserSchema.methods.validPassword = (password, email) => {
+//     let splitEmail = email.split("@");
+//     splitEmail = splitEmail[0];
+//     let hash = crypto.pbkdf2Sync(password, splitEmail, 10000, 512, "sha512").toString("hex");
+//     return this.hash === hash;
+// };
 
-UserSchema.methods.generateJWT = (email) => {
-    var today = new Date();
-    var exp = new Date(today);
-    exp.setDate(today.getDate() + 60);
+// UserSchema.methods.generateJWT = (email) => {
+//     var today = new Date();
+//     var exp = new Date(today);
+//     exp.setDate(today.getDate() + 60);
 
-    return jwt.sign(
-        {
-            email,
-            exp: parseInt(exp.getTime() / 1000),
-        },
-        SECRET_KEY
-    );
-};
+//     return jwt.sign(
+//         {
+//             email,
+//             exp: parseInt(exp.getTime() / 1000),
+//         },
+//         SECRET_KEY
+//     );
+// };
 
-UserSchema.methods.toAuthJSON = (user, jwt) => {
-    return {
-        email: user.email,
-        token: jwt,
-    };
-};
+// UserSchema.methods.toAuthJSON = (user, jwt) => {
+//     return {
+//         email: user.email,
+//         token: jwt,
+//     };
+// };
 
-UserSchema.plugin(uniqueValidator, {
-    message: "Ooops! is already taken.",
-});
+// UserSchema.plugin(uniqueValidator, {
+//     message: "Ooops! is already taken.",
+// });
 
-module.exports.UserModel = mongoose.model("User", UserSchema);
+module.exports = mongoose.models.User || mongoose.model("User", UserSchema);

@@ -3,12 +3,12 @@ import { useEffect, useRef, useState } from "react";
 // context API
 import { useTodoContext, useUserContext } from "../context/state";
 // components
-import TodoForm from "../components/Todo/TodoForm";
-import LoginRegisterForms from "../components/User/LorginRegisterForms";
-import TodoList from "../components/Todo/TodoList";
+import TodoForm from "../components/todos/TodoForm";
+import LoginRegisterForms from "../components/users/LorginRegisterForms";
+import TodoList from "../components/todos/TodoList";
 
-// let apiUrl = "http://localhost:3000/api/v1/todos";
-let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
+let apiUrl = "http://localhost:3000/api/v1/todos";
+// let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
 // You should use getServerSideProps when:
 // - Only if you need to pre-render a page whose data must be fetched at request time
 export const getServerSideProps = async (ctx) => {
@@ -155,7 +155,7 @@ export default function Home({ data }) {
             </main>
 
             {/* ALERT */}
-            <LoginRegisterForms isLogin={isLogin} setIsLogin={setIsLogin} />
+            {/* <LoginRegisterForms isLogin={isLogin} setIsLogin={setIsLogin} /> */}
         </div>
     );
 }
