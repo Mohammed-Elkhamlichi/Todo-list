@@ -9,7 +9,8 @@ import TodoList from "../components/Todo/TodoList";
 
 export default function Home() {
     // let apiUrl = "http://localhost:8000/api/v1/";
-    let apiUrl = "http://localhost:3000/api/v1/todos";
+    // let apiUrl = "http://localhost:3000/api/v1/todos";
+    let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
 
     // states
     const [isOpenAuthWindow, setIsOpenAuthWindow] = useState(false);
