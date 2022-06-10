@@ -9,7 +9,6 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
     // the checkbox state ( todo completed or not)
     const [isCompletedTodo, setIsCompletedTodo] = useState(false);
 
-    // let apiUrl = "http://localhost:8000/api/v1/";
     // let apiUrl = "http://localhost:3000/api/v1/todos";
     let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
     let { _id, title, completed } = todo;
@@ -19,9 +18,7 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
         try {
             todoDispatch({ isLoading: true });
             axios
-                .delete(`${apiUrl}/${id}`, {
-                    params: { api_key: "Mohammed_delete" },
-                })
+                .delete(`${apiUrl}/${id}`)
                 .then((res) => {
                     todoDispatch({
                         type: "DELETE_TODO",
@@ -78,8 +75,8 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
 
     return (
         <div
-            className={`bg-sky-400 p-2 my-2 flex flex-row justify-between items-center border-solid rounded-tl-lg rounded-bl-lg ${
-                completed ? "border-l-8 border-black " : "border-l-8 border-white"
+            className={`bg-slate-600 p-2 my-2 flex flex-row justify-between items-center border-solid rounded-tl-lg rounded-bl-lg ${
+                completed ? "border-l-8 border-yellow-400" : "border-l-8 border-slate-500"
             }`}
             key={_id}>
             <div>
@@ -91,22 +88,24 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
                     type="checkbox"
                     name="completed"
                     id="completed"
-                    className="h-8 w-6 "
+                    className={`h-8 w-6 accent-yellow-400`}
                     ref={completedRef}
                     checked={completed}
                 />
             </div>
-            <div className="text-left">
+            <div className="text-left text-lg ">
                 {completed ? (
                     <h1>
-                        <del>{title}</del>
+                        <i>
+                            <del>{title}</del>
+                        </i>
                     </h1>
                 ) : (
                     <h1>{title}</h1>
                 )}
             </div>
             <div className="flex flex-row ">
-                <div className="h-7 w-7 text-sm text-red-600 mx-2 hover:animate-pulse cursor-pointer">
+                <div className="h-7 w-7 text-sm text-yellow-400 mx-2 hover:animate-pulse cursor-pointer">
                     <TrashIcon onClick={() => handledDeleteTodoBtn(_id)} />
                 </div>
                 <div className="h-7 w-7 text-sm mx-2 hover:animate-pulse cursor-pointer">

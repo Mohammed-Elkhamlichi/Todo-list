@@ -3,7 +3,7 @@ import Todo from "../../models/todos/Todo";
 // PATCH HTPP METHOD Route
 const UpdateOneTodo = async (req, res) => {
     try {
-        const isCompleted = (await req.body.completed) || false;
+        const isCompleted = (await req.body.completed) ?? false;
         const title = await req.body.title;
         const id = await req.query.id;
         if (title) {

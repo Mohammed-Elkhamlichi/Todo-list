@@ -9,7 +9,7 @@ const Navbar = () => {
     const [userState, userDispatch] = useUserContext();
     useEffect(() => {
         window.onscroll = () => {
-            if (window.scrollY >= 100) {
+            if (window.scrollY >= 200) {
                 setWindowScrollY(window.scroll);
                 setNavFixed(true);
             } else {
@@ -21,10 +21,10 @@ const Navbar = () => {
     return (
         <>
             <nav
-                className={`bg-slate-700 z-50 text-sky-500 flex flex-row justify-start items-center ${
+                className={`bg-slate-700 z-50 text-sky-500 flex flex-row justify-start items-center  shadow-md shadow-slate-800 ${
                     navFixed ? "fixed top-0 right-0  left-0" : ""
                 }`}>
-                <h1 className={`flex-1 m-2   font-bold text-xl text-white`}>
+                <h1 className={`flex-1 m-2   font-bold text-xl text-yellow-500`}>
                     <Link href="/">
                         <a>Todo App</a>
                     </Link>

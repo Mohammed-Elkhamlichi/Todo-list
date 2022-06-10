@@ -7,7 +7,6 @@ import TodoForm from "../components/Todo/TodoForm";
 import LoginRegisterForms from "../components/User/LorginRegisterForms";
 import TodoList from "../components/Todo/TodoList";
 
-// let apiUrl = "http://localhost:8000/api/v1/";
 // let apiUrl = "http://localhost:3000/api/v1/todos";
 let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
 // You should use getServerSideProps when:

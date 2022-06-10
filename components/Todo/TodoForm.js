@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useTodoContext } from "../../context/state";
 
 const TodoForm = ({ todoInput, handleAddTodoForm }) => {
-    // let apiUrl = "http://localhost:8000/api/v1/";
     // let apiUrl = "http://localhost:3000/api/v1/todos";
     let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
 
@@ -18,14 +17,10 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
                 todoDispatch({ isLoading: true });
 
                 axios
-                    .patch(
-                        `${apiUrl}/${todoState?.todo._id}`,
-                        {
-                            completed: todoState.todo.completed,
-                            title: todoTitle || todoState.todo.title,
-                        },
-                        { params: { apkey: "MEM_2020_NODEJS" } }
-                    )
+                    .patch(`${apiUrl}/${todoState?.todo._id}`, {
+                        completed: todoState.todo.completed,
+                        title: todoTitle || todoState.todo.title,
+                    })
                     .then((res) => {
                         const todo = res.data.todo;
                         const todos = res.data.todos;
@@ -61,14 +56,14 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
                     type="text"
                     name="title"
                     id="title"
-                    className="px-2 py-2  w-full outline-0 bod  rounded hover:outline-dotted hover:outline-slate-800"
-                    placeholder="Todo"
+                    className="px-2 py-2 text-yellow-600 placeholder:text-yellow-600 placeholder:text-lg text-lg w-full outline-0 bod  rounded hover:outline-dotted hover:outline-slate-800 hover:shadow-xl  hover:shadow-slate-850"
+                    placeholder="Your Todo Title"
                 />
             </div>
             <div className="w-1/4 mx-1 mt-5 sm:mt-0">
                 <button
                     type="submit"
-                    className="py-2 bg-green-600 border-white w-full  border-2 rounded-lg hover:text-white  hover:font-bold">
+                    className="py-2 bg-yellow-600 border-white w-full  border-2 rounded-lg hover:text-white  hover:font-bold">
                     {todoState?.isUpdateTodo && "Update"}
                     {todoState?.isAddTodo && "Add"}
                 </button>
