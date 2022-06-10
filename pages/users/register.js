@@ -4,8 +4,8 @@ import axios from "axios";
 import Alert from "../../components/Alert";
 import { useUserContext } from "../../context/state";
 
-const apiUrl = "http://localhost:3000/api/v1/users/register";
-// let apiUrl = "https://todo-list-mem.vercel.app/api/v1/users/register";
+// const apiUrl = "http://localhost:3000/api/v1/users/register";
+let apiUrl = "https://todo-list-mem.vercel.app/api/v1/users/register";
 
 const Register = () => {
    const [userState, userDispatch] = useUserContext();
