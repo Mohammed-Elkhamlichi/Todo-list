@@ -1,26 +1,23 @@
 export const userInitialState = {
     users: [],
-    user: null,
+    user: {},
     isLogin: false,
     isCookies: false,
     jwt: null,
     isOpenAuthWindow: false,
+    userAlert: { msg: null, classes: null },
 };
 
-export const userReducer = async (state, action) => {
+export const userReducer = (state, action) => {
+    const users = action.users || state.users;
+    const user = action.user || state.user;
+    let userAlert = action.userAlert || state.userAlert;
+
     switch (action.type) {
         case "LOGIN":
             return { ...state };
         case "REGISTER":
-            return { ...state };
-        case "IS_LOGIN":
-            return { ...state };
-        case "SET_COOKIES_JWT":
-            return {
-                ...state,
-            };
-        case "IS_TOKEN":
-            return { ...state };
+            return { ...state, users, user, userAlert };
         default:
             return { ...state };
     }

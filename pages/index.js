@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { useTodoContext, useUserContext } from "../context/state";
 // components
 import TodoForm from "../components/todos/TodoForm";
-import LoginRegisterForms from "../components/users/LorginRegisterForms";
 import TodoList from "../components/todos/TodoList";
+import Alert from "../components/Alert";
 
-// let apiUrl = "http://localhost:3000/api/v1/todos";
-let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
+let apiUrl = "http://localhost:3000/api/v1/todos";
+// let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
 // You should use getServerSideProps when:
 // - Only if you need to pre-render a page whose data must be fetched at request time
 export const getServerSideProps = async (ctx) => {
@@ -134,10 +134,8 @@ export default function Home({ data }) {
                         </div>
                     )}
                     <h1 className="text-5xl font-bold  pt-5 text-center text-white">Todo APP</h1>
-                    <div
-                        className={`text-center rounded-full opacity-90 text-white ${todoState.todoAlert.classes} w-10/12 sm:w-3/4 m-auto mt-4 px-2 py-2`}>
-                        {todoState.todoAlert.msg}
-                    </div>
+
+                    <Alert classes={todoState.todoAlert.classes} msg={todoState?.todoAlert.msg} />
 
                     {/* TODO FORM */}
                     <TodoForm
@@ -153,9 +151,6 @@ export default function Home({ data }) {
                     <TodoList createTodoAlerts={createTodoAlerts} todoInput={todoInput} completedRef={completedRef} />
                 </section>
             </main>
-
-            {/* ALERT */}
-            {/* <LoginRegisterForms isLogin={isLogin} setIsLogin={setIsLogin} /> */}
         </div>
     );
 }

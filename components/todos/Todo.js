@@ -9,8 +9,8 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
     // the checkbox state ( todo completed or not)
     const [isCompletedTodo, setIsCompletedTodo] = useState(true);
 
-    // let apiUrl = "http://localhost:3000/api/v1/todos";
-    let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
+    let apiUrl = "http://localhost:3000/api/v1/todos";
+    // let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
     let { _id, title, completed } = todo;
 
     // Delete Todo Function
@@ -94,7 +94,7 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
                     checked={completed}
                 />
             </div>
-            <div className="text-left text-lg ">
+            <div className=" text-sm ">
                 {completed ? (
                     <h1>
                         <i>
