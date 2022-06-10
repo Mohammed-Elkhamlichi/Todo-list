@@ -1,5 +1,6 @@
 {
   "name": "client",
+  "author":"Mohammed EL Khamlichi",
   "version": "0.1.0",
   "private": true,
   "scripts": {
