@@ -33,7 +33,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-### after cloning this repo you should run this command :
+# after cloning this repo you should run this command :
 
 to install dependencies
 
@@ -42,7 +42,7 @@ npm i
 
 ```
 
-### then
+# then
 
 add a file .env.local and in this file add your monogo URI
 
