@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
                 <meta name="autho" content="Mohammed EL Khamlichi" />
                 <meta name="keywords" content="todo,list,goals,trucker,habits" /> */}
 
-                <link rel="icon" href="/todo.ico" />
+                <link rel="icon" href="/favicon.ico" />
             </Head>
             <header>
                 <Navbar />
