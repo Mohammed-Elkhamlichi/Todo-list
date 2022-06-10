@@ -7,7 +7,7 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
     // context api with reducer
     const [todoState, todoDispatch] = useTodoContext();
     // the checkbox state ( todo completed or not)
-    const [isCompletedTodo, setIsCompletedTodo] = useState(false);
+    const [isCompletedTodo, setIsCompletedTodo] = useState(true);
 
     // let apiUrl = "http://localhost:3000/api/v1/todos";
     let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
@@ -38,6 +38,7 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
     const handleCheckBox = (e) => {
         try {
             todoDispatch({ isLoading: true });
+            console.log(isCompletedTodo);
             axios
                 .patch(`${apiUrl}/${_id}`, {
                     _id,
