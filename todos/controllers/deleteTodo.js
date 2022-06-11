@@ -1,4 +1,4 @@
-import Todo from "../../models/todos/Todo";
+import Todo from "../models/Todo";
 
 // DELETE HTPP METHOD Route
 const deleteOneTodo = async (req, res) => {

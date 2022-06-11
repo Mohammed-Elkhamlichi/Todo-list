@@ -1,4 +1,4 @@
-import User from "../../../../models/users/User";
+import User from "../../../../users/models/User";
 
 const registerHandler = async (req, res) => {
    const { method } = req;

@@ -1,4 +1,4 @@
-import Todo from "../../models/todos/Todo";
+import Todo from "../models/Todo";
 
 // PATCH HTPP METHOD Route
 const UpdateOneTodo = async (req, res) => {

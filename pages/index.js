@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 // context API
 import { useTodoContext, useUserContext } from "../context/state";
 // components
-import TodoForm from "../components/todos/TodoForm";
-import TodoList from "../components/todos/TodoList";
+import TodoForm from "../todos/components/TodoForm";
+import TodoList from "../todos/components/TodoList";
 import Alert from "../components/Alert";
 
 // let apiUrl = "http://localhost:3000/api/v1/todos";
@@ -24,7 +24,7 @@ export default function Home({ data }) {
    const [isLogin, setIsLogin] = useState(false);
    // todo Context
    const [todoState, todoDispatch] = useTodoContext();
-   const [userState, userDispatch] = useTodoContext();
+   const [userState, userDispatch] = useUserContext();
 
    // get the todo title input
    const todoInput = useRef(null);

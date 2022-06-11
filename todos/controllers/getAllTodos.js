@@ -1,4 +1,4 @@
-import Todo from "../../models/todos/Todo";
+import Todo from "../models/Todo";
 
 // GET HTPP METHOD Route
 const getAllTodos = async (req, res) => {
