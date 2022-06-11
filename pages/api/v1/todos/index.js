@@ -13,7 +13,7 @@ import { connectDB } from "../../../../db/connectDB";
 
 const handler = async (req, res) => {
    await initMiddleware(req, res, cors({ methods: ["GET", "POST"] }));
-   connectDB();
+   await connectDB();
    const { method } = req;
    switch (method) {
       case "GET":

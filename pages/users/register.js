@@ -13,59 +13,72 @@ const Register = () => {
    const usernameRef = useRef("");
    const passwordRef = useRef("");
    const handleRegisterForm = (e) => {
-      e.preventDefault();
-      console.log("register form handler");
-      let emailValue = emailRef.current.value,
-         usernameValue = usernameRef.current.value,
-         passwordValue = passwordRef.current.value;
+      try {
+         e.preventDefault();
+         console.log("register form handler");
+         let emailValue = emailRef.current.value,
+            usernameValue = usernameRef.current.value,
+            passwordValue = passwordRef.current.value;
 
-      if (emailValue && usernameValue && passwordValue) {
-         console.log({ passwordValue, emailValue, usernameValue });
-         console.log({ userState });
-         axios
-            .post(apiUrl, { user: { username: usernameValue, email: emailValue, password: passwordValue } })
-            .then(async (res) => {
-               console.log(res.data);
-               const success = res.data.success;
-               let msg;
+         if (emailValue && usernameValue && passwordValue) {
+            console.log({ passwordValue, emailValue, usernameValue });
+            console.log({ userState });
+            axios
+               .post(apiUrl, { user: { username: usernameValue, email: emailValue, password: passwordValue } })
+               .then(async (res) => {
+                  console.log(res.data);
+                  const success = res.data.success;
+                  let msg;
 
-               if (success) {
-                  msg = await res.data.msg;
-                  const user = await res.data.user;
-                  const users = await res.data.users;
-                  userDispatch({
-                     type: "REGISTER",
-                     user,
-                     users,
-                     userAlert: { msg, classes: "bg-green-500" },
-                  });
-                  setTimeout(() => {
+                  if (success) {
+                     msg = await res.data.msg;
+                     const user = await res.data.user;
+                     const users = await res.data.users;
                      userDispatch({
                         type: "REGISTER",
-                        userAlert: { msg: null, classes: null },
+                        user,
+                        users,
+                        userAlert: { msg, classes: "bg-green-500" },
                      });
-                  }, 5000);
-               } else {
-                  msg = await res.data.msg;
-                  userDispatch({
-                     type: "REGISTER",
-                     userAlert: { msg, classes: "bg-red-500" },
-                  });
-                  setTimeout(() => {
+                     setTimeout(() => {
+                        userDispatch({
+                           type: "REGISTER",
+                           userAlert: { msg: null, classes: null },
+                        });
+                     }, 5000);
+                  } else {
+                     msg = await res.data.msg;
                      userDispatch({
                         type: "REGISTER",
-                        userAlert: { msg: null, classes: null },
+                        userAlert: { msg, classes: "bg-red-500" },
                      });
-                  }, 5000);
-               }
-            })
-            .catch((err) => console.log(err));
+                     setTimeout(() => {
+                        userDispatch({
+                           type: "REGISTER",
+                           userAlert: { msg: null, classes: null },
+                        });
+                     }, 5000);
+                  }
+               })
+               .catch((err) => console.log(err));
 
-         emailRef.current.value = "";
-         usernameRef.current.value = "";
-         passwordRef.current.value = "";
-      } else {
-         console.log("fields can't be blank");
+            emailRef.current.value = "";
+            usernameRef.current.value = "";
+            passwordRef.current.value = "";
+         } else {
+            userDispatch({
+               type: "REGISTER",
+               userAlert: { msg: "username or email can't be blank", classes: "bg-red-500" },
+            });
+            setTimeout(() => {
+               userDispatch({
+                  type: "REGISTER",
+                  userAlert: { msg: null, classes: null },
+               });
+            }, 5000);
+         }
+      } catch (error) {
+         console.log(error);
       }
    };
    return (

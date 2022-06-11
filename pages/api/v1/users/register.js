@@ -19,6 +19,24 @@ const registerHandler = async (req, res) => {
                // check if the user is exist or not
                const isUserExist = await User.findOne({ email });
                console.log({ isUserExist });
+
+               // hash the password
+               const passwordHashed = () => {
+                  try {
+                     return;
+                  } catch (error) {
+                     console.log({ password_hash_error: error });
+                  }
+               };
+               // valid the password
+               const passwordValidate = () => {
+                  try {
+                     return;
+                  } catch (error) {
+                     console.log({ password_hash_error: error });
+                  }
+               };
+
                // if the user not exist
                if (!isUserExist) {
                   const user = await User.create({ username, email, password });
