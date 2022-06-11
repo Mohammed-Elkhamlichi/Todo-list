@@ -46,8 +46,8 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
             todoState.isUpdateTodo ? handleUpdateTodoForm(e) : handleAddTodoForm(e);
          }}
          id="todo_form"
-         className="flex flex-col sm:flex-row  w-full sm:w-2/3 m-auto my-5 justify-between items-center bg">
-         <div className="w-11/12 mx-1 flex flex-row items-center">
+         d="flex flex-col sm:flex-row  w-full sm:w-2/3 m-auto my-5 justify-between items-center bg">
+         <div d="w-11/12 mx-1 flex flex-row items-center">
             <input
                onChange={(e) => {
                   setTodoTitle(e.target.value);
@@ -56,12 +56,12 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
                type="text"
                name="title"
                id="title"
-               className="px-2 py-2 text-yellow-600 placeholder:text-yellow-600 placeholder:text-lg text-lg w-full outline-0 bod  rounded hover:outline-dotted hover:outline-slate-800 hover:shadow-xl  hover:shadow-slate-850"
+               d="px-2 py-2 text-yellow-600 placeholder:text-yellow-600 placeholder:text-lg text-lg w-full outline-0 bod  rounded hover:outline-dotted hover:outline-slate-800 hover:shadow-xl  hover:shadow-slate-850"
                placeholder="Your Todo Title"
             />
          </div>
-         <div className="w-1/4 mx-1 mt-5 sm:mt-0">
-            <button type="submit" className="bg-yellow-500 my-4 py-3 px-10 rounded">
+         <div d="w-1/4 mx-1 mt-5 sm:mt-0">
+            <button type="submit" d="bg-yellow-500 my-4 py-3 px-10 rounded">
                {todoState?.isUpdateTodo && "Update"}
                {todoState?.isAddTodo && "Add"}
             </button>
