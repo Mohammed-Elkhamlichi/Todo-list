@@ -121,16 +121,19 @@ export default function Home({ data }) {
    }, [todoState?.todoAlert.msg]);
 
    return (
-      <div d="">
-         <main d={`${userState?.isOpenAuthWindow || todoState?.isLoading ? "z-0 opacity-60" : "z-10 opacity-100 "}  }`}>
+      <div className="">
+         <main
+            className={`${
+               userState?.isOpenAuthWindow || todoState?.isLoading ? "z-0 opacity-60" : "z-10 opacity-100 "
+            }  }`}>
             {/* TODO FORM */}
-            <section d="bg-slate-700 w-11/12 sm:w-3/3 md:w-2/3 rounded m-auto mt-10 py-10">
+            <section className="bg-slate-700 w-11/12 sm:w-3/3 md:w-2/3 rounded m-auto mt-10 py-10">
                {todoState?.isLoading && (
-                  <div d="text-center  w-60 m-auto items-center">
-                     <div d="animate-spin border-8 border-white w-10 h-10 rounded-full border-dashed  m-auto  border-l-slate-800 border-t-green-100 border-r-blue-800 border-b-sky-400"></div>
+                  <div className="text-center  w-60 m-auto items-center">
+                     <div className="animate-spin border-8 border-white w-10 h-10 rounded-full border-dashed  m-auto  border-l-slate-800 border-t-green-100 border-r-blue-800 border-b-sky-400"></div>
                   </div>
                )}
-               <h1 d="text-5xl font-bold  pt-5 text-center text-white">Todo APP</h1>
+               <h1 className="text-5xl font-bold  pt-5 text-center text-white">Todo APP</h1>
 
                <Alert classes={todoState.todoAlert.classes} msg={todoState?.todoAlert.msg} />
 
@@ -142,8 +145,8 @@ export default function Home({ data }) {
                />
             </section>
 
-            <section d="bg-slate-700 w-11/12 sm:w-3/3 md:w-2/3 rounded m-auto mt-5 mb-20 py-10">
-               <h1 d="text-5xl font-bold  pt-5 text-center text-white">Todo List</h1>
+            <section className="bg-slate-700 w-11/12 sm:w-3/3 md:w-2/3 rounded m-auto mt-5 mb-20 py-10">
+               <h1 className="text-5xl font-bold  pt-5 text-center text-white">Todo List</h1>
                {/* TODO LIST */}
                <TodoList createTodoAlerts={createTodoAlerts} todoInput={todoInput} completedRef={completedRef} />
             </section>

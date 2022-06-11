@@ -6,7 +6,7 @@ const TodoList = ({ createTodoAlerts, completedRef, todoInput }) => {
 
    return (
       <>
-         <article d="text-white p-2">
+         <article className="text-white p-2">
             {todoState?.todos.map((todo) => {
                return (
                   <Todo

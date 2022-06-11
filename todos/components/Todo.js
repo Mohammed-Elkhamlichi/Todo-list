@@ -76,7 +76,7 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
 
    return (
       <div
-         d={`bg-slate-600 p-2 my-2 flex flex-row justify-between items-center border-solid rounded-tl-lg rounded-bl-lg ${
+         className={`bg-slate-600 p-2 my-2 flex flex-row justify-between items-center border-solid rounded-tl-lg rounded-bl-lg ${
             completed ? "border-l-8 border-yellow-400" : "border-l-8 border-slate-500"
          }`}
          key={_id}>
@@ -89,12 +89,12 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
                type="checkbox"
                name="completed"
                id="completed"
-               d={`h-8 w-6 accent-yellow-400`}
+               className={`h-8 w-6 accent-yellow-400`}
                ref={completedRef}
                checked={completed}
             />
          </div>
-         <div d=" text-sm ">
+         <div className=" text-sm ">
             {completed ? (
                <h1>
                   <i>
@@ -105,11 +105,11 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
                <h1>{title}</h1>
             )}
          </div>
-         <div d="flex flex-row ">
-            <div d="h-7 w-7 text-sm text-yellow-400 mx-2 hover:animate-pulse cursor-pointer">
+         <div className="flex flex-row ">
+            <div className="h-7 w-7 text-sm text-yellow-400 mx-2 hover:animate-pulse cursor-pointer">
                <TrashIcon onClick={() => handledDeleteTodoBtn(_id)} />
             </div>
-            <div d="h-7 w-7 text-sm mx-2 hover:animate-pulse cursor-pointer">
+            <div className="h-7 w-7 text-sm mx-2 hover:animate-pulse cursor-pointer">
                <PencilAltIcon onClick={() => handleUpdateTodoBtn(todo)} />
             </div>
          </div>

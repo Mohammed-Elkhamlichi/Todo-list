@@ -2,12 +2,12 @@ import Todo from "../models/Todo";
 
 // POST HTPP METHOD Route
 const createOneTodo = async (req, res) => {
+
    try {
       const title = await req.body.title;
       const findTodo = await Todo.findOne({ title });
       const created = new Date().getTime();
       console.log(created);
-
       if (!findTodo) {
          // Create new todo and put it in Constant variable
          const todo = await Todo.create({ title, created });
