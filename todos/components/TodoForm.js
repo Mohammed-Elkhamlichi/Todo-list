@@ -47,7 +47,7 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
          }}
          id="todo_form"
          className="flex flex-col sm:flex-row  w-full sm:w-2/3 m-auto my-5 justify-between items-center bg">
-         <div className="w-11/12 mx-1 flex flex-row items-center">
+         <div className="w-10/12 mx-1 flex flex-row items-center">
             <input
                onChange={(e) => {
                   setTodoTitle(e.target.value);
