@@ -109,7 +109,8 @@ const Login = (data) => {
                         name="email"
                         id="email"
                         placeholder="Email"
-                        autoCorrect="true"
+                        autoCorrect="false"
+                        autoComplete="false"
                         className="py-2 px-3 text-lg rounded outline-yellow-600 outline-4 placeholder:text-yellow-600 placeholder:opacity-80 w-full"
                      />
                   </div>
@@ -120,7 +121,8 @@ const Login = (data) => {
                         name="password"
                         id="password"
                         placeholder="Password"
-                        autoCorrect="true"
+                        autoCorrect="false"
+                        autoComplete="false"
                         className="py-2 px-3 text-lg rounded outline-yellow-600 outline-4 placeholder:text-yellow-600  placeholder:opacity-80  w-full"
                      />
                   </div>
