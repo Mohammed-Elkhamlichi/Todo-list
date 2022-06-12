@@ -1,7 +1,12 @@
+import { connectDB } from "../../../../db/connectDB";
 import User from "../../../../users/models/User";
 const crypto = require("crypto");
 import hashPassword from "../../../../utils/hashPassword";
+import NextCors from "nextjs-cors";
+
 const registerHandler = async (req, res) => {
+   await NextCors(req, res, { methods: ["GET", "POST"], origin: "*", optionsSuccessStatus: 201 });
+   await connectDB();
    const { method } = req;
    try {
       switch (method) {
@@ -10,13 +15,13 @@ const registerHandler = async (req, res) => {
                body: req.body,
             });
             const users = await User.find({});
-            return res.status(200).json({
+            res.status(200).json({
                success: true,
                msg: "success get users",
                method,
                users,
             });
-
+            break;
          case "POST":
             console.log({ body: req.body });
 
@@ -26,14 +31,15 @@ const registerHandler = async (req, res) => {
             // check if the fields not empty
             if (email && username && password) {
                // check if the user is exist or not
-               const isUserExist = await User.findOne({ email });
+               const isUserExist = await User.findOne({ username, email });
+               console.log({ isUserExist });
                // if the user not exist
                if (!isUserExist) {
                   // Set a salt for this User
                   const salt = await crypto.randomBytes(16).toString("hex");
                   console.log({ salt });
                   // hash the password
-                  password = await hashPassword(salt, password);
+                  password = await hashPassword(password, salt);
                   console.log({ password });
                   // Create New User
                   const user = await User.create({ username, email, password, salt });
@@ -49,12 +55,14 @@ const registerHandler = async (req, res) => {
 
                   // if the user not exist.
                } else {
+                  console.log("Try an other email or username");
                   return res.status(200).json({
                      success: false,
                      msg: "Try an other email or username",
                   });
                }
             } else {
+               console.log("ffffme");
                // if a field is empty or more.
                return res.status(200).json({
                   success: false,
@@ -67,6 +75,7 @@ const registerHandler = async (req, res) => {
                success: false,
                msg: "Error",
             });
+            break;
       }
    } catch (error) {
       console.log(error);

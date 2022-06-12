@@ -1,10 +1,13 @@
 import deleteTodo from "./../../../../todos/controllers/deleteTodo";
 import UpdateTodo from "./../../../../todos/controllers/updateTodo";
-import initMiddleware from "../../../../utils/middleware";
-const cors = require("cors");
+import { connectDB } from "../../../../db/connectDB";
+import NextCors from "nextjs-cors";
 
 const handler = async (req, res) => {
-   await initMiddleware(req, res, cors({ methods: ["PATCH", "DELETE"] }));
+   // Cors
+   await NextCors(req, res, { methods: ["PATCH", "DELETE"], origin: "*", optionsSuccessStatus: 201 });
+   // DB connection
+   await connectDB();
    const { method } = req;
    switch (method) {
       case "PATCH":

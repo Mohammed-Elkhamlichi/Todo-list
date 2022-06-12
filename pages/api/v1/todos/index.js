@@ -4,16 +4,16 @@
 import createTodo from "./../../../../todos/controllers/createTodo";
 import getAllTodos from "./../../../../todos/controllers/getAllTodos";
 
-import initMiddleware from "../../../../utils/middleware";
 // Middlewares
-const cors = require("cors");
+import NextCors from "nextjs-cors";
 
 // DB Connection
 import { connectDB } from "../../../../db/connectDB";
 
 const handler = async (req, res) => {
-   await initMiddleware(req, res, cors({ methods: ["GET", "POST"] }));
+   await NextCors(req, res, { methods: ["GET", "POST"], origin: "*", optionsSuccessStatus: 201 });
    await connectDB();
+
    const { method } = req;
    switch (method) {
       case "GET":

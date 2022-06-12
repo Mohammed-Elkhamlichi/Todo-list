@@ -1,10 +1,96 @@
 import Link from "next/link";
+import axios from "axios";
+import { useRef } from "react";
+import { useUserContext } from "../../context/state";
+import Alert from "../../components/Alert";
 
-const Login = () => {
+// const apiUrl = "http://localhost:3000/api/v1/users/login";
+let apiUrl = "https://todo-list-mem.vercel.app/api/v1/users/login";
+
+const Login = (data) => {
+   const [userState, userDispatch] = useUserContext();
+
+   const emailRef = useRef(null);
+   const passwordRef = useRef(null);
+
+   // handle the login form
    const handleLoginForm = (e) => {
-      e.preventDefault();
-      console.log("login form handler");
+      try {
+         e.preventDefault();
+         setTimeout(() => {
+            userDispatch({
+               type: "REGISTER",
+               userAlert: { msg: null, classes: null },
+            });
+         }, 5000);
+         // the inputs value
+         let emailValue = emailRef.current.value;
+         let passwordValue = passwordRef.current.value;
+         // if the inputs are empty
+         if (!emailValue && !passwordValue) {
+            userDispatch({ type: "LOGIN", userAlert: { msg: "Enter Your Email and Password", classes: "bg-red-500" } });
+         } else if (!emailValue) {
+            userDispatch({ type: "LOGIN", userAlert: { msg: "Enter Your Email", classes: "bg-red-500" } });
+         } else if (!passwordValue) {
+            userDispatch({ type: "LOGIN", userAlert: { msg: "Enter Your Password", classes: "bg-red-500" } });
+         }
+         // check the info types is correct or not
+         let emailRegEx = /\S+@\S+\.\S+/g;
+         let validEmail = emailRegEx.test(emailValue);
+         let validPassword = passwordValue.length >= 8;
+         // if the email type error should be like exemple@domain.com
+         if (!validEmail) {
+            userDispatch({ type: "LOGIN", userAlert: { msg: "Email Type Error", classes: "bg-red-500" } });
+         }
+         // if the password less then 8 har
+         if (!validPassword) {
+            userDispatch({
+               type: "LOGIN",
+               userAlert: { msg: "Password Should Be More Then 8 Chars", classes: "bg-red-500" },
+            });
+         }
+         // if the email and password is valid patterns
+         if (validEmail) {
+            // if the inputs not empty
+            if (emailValue && passwordValue) {
+               axios
+                  .post(apiUrl, { user: { email: emailValue.toLowerCase(), password: passwordValue } })
+                  .then((res) => {
+                     const msg = res.data.msg;
+                     const success = res.data.success;
+
+                     if (success) {
+                        userDispatch({
+                           type: "LOGIN",
+                           userAlert: { msg, classes: "bg-green-500" },
+                        });
+                     }
+                     if (!success) {
+                        userDispatch({
+                           type: "LOGIN",
+                           userAlert: { msg, classes: "bg-red-500" },
+                        });
+                     }
+                  })
+                  .catch((err) => {
+                     let msg = err.response.data.msg;
+                     userDispatch({
+                        type: "LOGIN",
+                        userAlert: { msg, classes: "bg-red-500" },
+                     });
+                  });
+               emailRef.current.value = "";
+               passwordRef.current.value = "";
+            }
+         }
+      } catch (error) {
+         userDispatch({
+            type: "LOGIN",
+            userAlert: { msg: "Internal Server Error", classes: "bg-red-500" },
+         });
+      }
    };
+
    return (
       <>
          <section className="">
@@ -15,9 +101,11 @@ const Login = () => {
                   handleLoginForm(e);
                }}>
                <h1 className="text-4xl sm:text-5xl text-white font-bold my-10">Login Form</h1>
+               <Alert msg={userState?.userAlert.msg ?? ""} classes={userState?.userAlert.classes ?? ""} />
                <div className="flex flex-col items-center my-5 w-10/12 sm:w-3/4 lg:w-2/4">
                   <div className="my-2 m-auto w-full">
                      <input
+                        ref={emailRef}
                         type="text"
                         name="email"
                         id="email"
@@ -28,6 +116,7 @@ const Login = () => {
                   </div>
                   <div className="my-2 m-auto w-full">
                      <input
+                        ref={passwordRef}
                         type="password"
                         name="password"
                         id="password"
@@ -46,7 +135,14 @@ const Login = () => {
                   <div className="my-3 text-sm font-mono  text-white flex flex-row items-center">
                      Don't have an account?
                      <Link href="/users/register">
-                        <a className="">
+                        <a
+                           className=""
+                           onClick={() => {
+                              userDispatch({
+                                 type: "LOGIN",
+                                 userAlert: { msg: "", classes: "" },
+                              });
+                           }}>
                            <span className="bg-yellow-600 py-1  px-3 mx-2 rounded ">Sign Up</span>
                         </a>
                      </Link>
