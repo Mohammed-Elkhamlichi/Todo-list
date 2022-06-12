@@ -43,10 +43,11 @@ const Login = () => {
                         Login
                      </button>
                   </div>
-                  <div className="my-3">
+                  <div className="my-3 text-sm font-mono  text-white flex flex-row items-center">
+                     Don't have an account?
                      <Link href="/users/register">
-                        <a className="text-sm font-mono text-white">
-                           Don't have an account? <span className="bg-yellow-600 py-1  px-3 rounded ">Sign Up</span>
+                        <a className="">
+                           <span className="bg-yellow-600 py-1  px-3 mx-2 rounded ">Sign Up</span>
                         </a>
                      </Link>
                   </div>

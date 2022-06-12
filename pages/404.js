@@ -1,7 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect } from "react";
+import Router, { useRouter } from "next/router";
 
 const PageNotFound = () => {
+   const router = useRouter();
+   useEffect(() => {
+      router.push("/users/login");
+   }, []);
+
    return (
       <>
          <div className="h-screen items-center text-center mt-10  text-white flex flex-col">
