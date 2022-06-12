@@ -1,9 +1,15 @@
+import NextCors from "nextjs-cors";
 import { connectDB } from "../../../../db/connectDB";
 import User from "../../../../users/models/User";
 import validPassword from "../../../../utils/validPassword";
 
 const loginHandler = async (req, res) => {
    try {
+      await NextCors(req, res, {
+         methods: ["POST"],
+         origin: ["http://localhost:3000", "https://todo-list-mem.vercel.app"],
+         optionsSuccessStatus: 201,
+      });
       await connectDB();
       const { method } = req;
       switch (method) {

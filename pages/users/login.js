@@ -68,15 +68,14 @@ const Login = (data) => {
                      if (!success) {
                         userDispatch({
                            type: "LOGIN",
-                           userAlert: { msg, classes: "bg-red-500" },
+                           userAlert: { msg: "Incorrect Email Or Password", classes: "bg-red-500" },
                         });
                      }
                   })
                   .catch((err) => {
-                     let msg = err.response.data.msg;
                      userDispatch({
                         type: "LOGIN",
-                        userAlert: { msg, classes: "bg-red-500" },
+                        userAlert: { msg: "Incorrect Email Or Password", classes: "bg-red-500" },
                      });
                   });
                emailRef.current.value = "";

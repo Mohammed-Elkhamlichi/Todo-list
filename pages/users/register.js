@@ -81,8 +81,14 @@ const Register = () => {
                            userAlert: { msg, classes: "bg-green-500" },
                         });
                         setTimeout(() => {
+                           userDispatch({
+                              type: "REGISTER",
+                              user,
+                              users,
+                              userAlert: { msg: "", classes: "" },
+                           });
                            router.push("/users/login");
-                        }, 2000);
+                        }, 3000);
                      } else {
                         msg = await res.data.msg;
                         userDispatch({

@@ -4,7 +4,11 @@ import NextCors from "nextjs-cors";
 
 const users = async (req, res) => {
    try {
-      await NextCors(req, res, { methods: ["GET"], origin: "*", optionsSuccessStatus: 201 });
+      await NextCors(req, res, {
+         methods: ["GET"],
+         origin: ["http://localhost:3000", "https://todo-list-mem.vercel.app"],
+         optionsSuccessStatus: 201,
+      });
 
       const { method } = req;
       switch (method) {
@@ -12,8 +16,10 @@ const users = async (req, res) => {
             await connectDB();
             const users = await User.find({});
             res.status(201).json({ success: true, users });
+            break;
          default:
             res.status(501).send("HTTP Method ERROR");
+            break;
       }
    } catch (error) {
       res.status(501).send("ERROR");

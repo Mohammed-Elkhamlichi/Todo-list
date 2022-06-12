@@ -11,7 +11,11 @@ import NextCors from "nextjs-cors";
 import { connectDB } from "../../../../db/connectDB";
 
 const handler = async (req, res) => {
-   await NextCors(req, res, { methods: ["GET", "POST"], origin: "*", optionsSuccessStatus: 201 });
+   await NextCors(req, res, {
+      methods: ["GET", "POST"],
+      origin: ["http://localhost:3000", "https://todo-list-mem.vercel.app"],
+      optionsSuccessStatus: 201,
+   });
    await connectDB();
 
    const { method } = req;

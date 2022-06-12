@@ -5,7 +5,11 @@ import NextCors from "nextjs-cors";
 
 const handler = async (req, res) => {
    // Cors
-   await NextCors(req, res, { methods: ["PATCH", "DELETE"], origin: "*", optionsSuccessStatus: 201 });
+   await NextCors(req, res, {
+      methods: ["PATCH", "DELETE"],
+      origin: ["http://localhost:3000", "https://todo-list-mem.vercel.app"],
+      optionsSuccessStatus: 201,
+   });
    // DB connection
    await connectDB();
    const { method } = req;
@@ -16,6 +20,7 @@ const handler = async (req, res) => {
          return deleteTodo(req, res);
       default:
          res.status(400).json({ success: false });
+         break;
    }
 };
 export default handler;

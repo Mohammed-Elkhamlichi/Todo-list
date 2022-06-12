@@ -5,23 +5,15 @@ import hashPassword from "../../../../utils/hashPassword";
 import NextCors from "nextjs-cors";
 
 const registerHandler = async (req, res) => {
-   await NextCors(req, res, { methods: ["GET", "POST"], origin: "*", optionsSuccessStatus: 201 });
+   await NextCors(req, res, {
+      methods: ["POST"],
+      origin: ["http://localhost:3000", "https://todo-list-mem.vercel.app"],
+      optionsSuccessStatus: 201,
+   });
    await connectDB();
    const { method } = req;
    try {
       switch (method) {
-         case "GET":
-            console.log({
-               body: req.body,
-            });
-            const users = await User.find({});
-            res.status(200).json({
-               success: true,
-               msg: "success get users",
-               method,
-               users,
-            });
-            break;
          case "POST":
             console.log({ body: req.body });
 
@@ -69,7 +61,6 @@ const registerHandler = async (req, res) => {
                   msg: "put all your information",
                });
             }
-
          default:
             res.status(501).json({
                success: false,
