@@ -12,6 +12,7 @@ const Register = () => {
    const emailRef = useRef("");
    const usernameRef = useRef("");
    const passwordRef = useRef("");
+
    const handleRegisterForm = (e) => {
       try {
          e.preventDefault();

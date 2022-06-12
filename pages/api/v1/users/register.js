@@ -1,5 +1,6 @@
 import User from "../../../../users/models/User";
-
+const crypto = require("crypto");
+import hashPassword from "../../../../utils/hashPassword";
 const registerHandler = async (req, res) => {
    const { method } = req;
    try {
@@ -11,36 +12,25 @@ const registerHandler = async (req, res) => {
 
          case "POST":
             console.log({ body: req.body });
-            const email = req.body.user.email,
+
+            let email = req.body.user.email,
                username = req.body.user.username,
                password = req.body.user.password;
             // check if the fields not empty
             if (email && username && password) {
                // check if the user is exist or not
                const isUserExist = await User.findOne({ email });
-               console.log({ isUserExist });
-
-               // hash the password
-               const passwordHashed = () => {
-                  try {
-                     return;
-                  } catch (error) {
-                     console.log({ password_hash_error: error });
-                  }
-               };
-               // valid the password
-               const passwordValidate = () => {
-                  try {
-                     return;
-                  } catch (error) {
-                     console.log({ password_hash_error: error });
-                  }
-               };
-
                // if the user not exist
                if (!isUserExist) {
-                  const user = await User.create({ username, email, password });
+                  // Set a salt for this User
+                  const salt = await crypto.randomBytes(8).toString("hex");
+                  // hash the password
+                  password = await hashPassword(salt, password);
+                  // Create New User
+                  const user = await User.create({ username, email, password, salt });
+                  // Get All Users
                   const users = await User.find({});
+                  // Send Response To The Cleint
                   return res.status(200).json({ success: true, msg: "Register Successfully", user, users });
 
                   // if the user not exist.
