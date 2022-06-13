@@ -1,9 +1,11 @@
+import { MoonIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useUserContext } from "../context/state";
 
 const Navbar = () => {
+   const [isDarkTheme, setIsDarkTheme] = useState(true);
    const router = useRouter();
    // controle the nav bar position
    const [navFixed, setNavFixed] = useState(false);
@@ -40,7 +42,7 @@ const Navbar = () => {
                   <a>Todo App</a>
                </Link>
             </h1>
-            <ul className="flex flex-row m-2">
+            <ul className="flex flex-row m-2 items-center">
                {!userState.jwt ? (
                   <li className="m-2">
                      <Link href="/users/login">
@@ -60,6 +62,20 @@ const Navbar = () => {
                      </Link>
                   </li>
                )}
+               <li className="m-2 p-2 text-white cursor-pointer   ">
+                  <MoonIcon
+                     className={`h-10 text-lg w-14 ${isDarkTheme ? "text-yellow-500" : "text-black"}`}
+                     onClick={() => {
+                        setIsDarkTheme(!isDarkTheme);
+                        console.log("dark/light");
+                        if (isDarkTheme) {
+                           console.log(true);
+                        } else {
+                           console.log(false);
+                        }
+                     }}
+                  />
+               </li>
             </ul>
          </nav>
          {!userState.jwt ||
