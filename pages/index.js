@@ -27,16 +27,12 @@ export default function Home() {
    // alert method with timer for error & success msg
    const createTodoAlerts = (msg, classes) => {
       let message = msg?.toString().toUpperCase();
+      // let message = msg;
+
       todoDispatch({
          todoAlert: { msg: message, classes },
       });
-      setTimeout(
-         () =>
-            todoDispatch({
-               todoAlert: { msg: "", classes: "" },
-            }),
-         5000
-      );
+      setTimeout(() => todoDispatch({ todoAlert: { msg: null, classes: null } }), 10000);
    };
    // get all Todos Function
    const getAllTodos = () => {
@@ -160,9 +156,9 @@ export default function Home() {
             <section className="bg-slate-700 w-11/12 sm:w-3/3 md:w-2/3 rounded m-auto mt-5 mb-20 py-10">
                <h1 className="text-5xl font-bold  pt-5 text-center text-white">Todo List</h1>
 
-               {!todoState.todos || !todoState.todo ? (
+               {!todoState.todos.length ? (
                   <h1 className="bg-sky-500 px-2 py-2 w-10/12 m-auto rounded mt-5 font-mono text-justify text-base">
-                     Add Your First Todo and Start the work and get your dreams
+                     Add your to do List , Start the work and Achieve your Dreams
                   </h1>
                ) : (
                   <TodoList createTodoAlerts={createTodoAlerts} todoInput={todoInput} completedRef={completedRef} />
