@@ -1,10 +1,13 @@
 import axios from "axios";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTodoContext } from "../../context/state";
 
 const TodoForm = ({ todoInput, handleAddTodoForm }) => {
    // let apiUrl = "http://localhost:3000/api/v1/todos";
    let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
+
+   const router = useRouter();
 
    const [todoState, todoDispatch] = useTodoContext();
    const [todoTitle, setTodoTitle] = useState("");
@@ -16,29 +19,33 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
 
             todoDispatch({ isLoading: true });
             const token = localStorage.getItem("token");
-            axios
-               .patch(
-                  `${apiUrl}/${todoState?.todo._id}`,
-                  {
-                     completed: todoState.todo.completed,
-                     title: todoTitle || todoState.todo.title,
-                  },
-                  { headers: { Authorization: `Todo ${token}` } }
-               )
-               .then((res) => {
-                  const todo = res.data.todo;
-                  const todos = res.data.todos;
-                  todoDispatch({
-                     type: "FORM_UPDATE_TODO_SUBMIT",
-                     todo,
-                     todos,
-                     todoAlert: { msg: "todo has been update", classes: "bg-green-500" },
-                     isLoading: false,
-                  });
-                  setTodoTitle("");
-               })
-               .catch((err) => console.log(err));
-            todoInput.current.value = "";
+            if (token && token.length > 20) {
+               axios
+                  .patch(
+                     `${apiUrl}/${todoState?.todo._id}`,
+                     {
+                        completed: todoState.todo.completed,
+                        title: todoTitle || todoState.todo.title,
+                     },
+                     { headers: { Authorization: `Todo ${token}` } }
+                  )
+                  .then((res) => {
+                     const todo = res.data.todo;
+                     const todos = res.data.todos;
+                     todoDispatch({
+                        type: "FORM_UPDATE_TODO_SUBMIT",
+                        todo,
+                        todos,
+                        todoAlert: { msg: "todo has been update", classes: "bg-green-500" },
+                        isLoading: false,
+                     });
+                     setTodoTitle("");
+                  })
+                  .catch((err) => console.log(err));
+               todoInput.current.value = "";
+            } else {
+               router.push("/users/login");
+            }
          }
       } catch (error) {
          console.log(error);

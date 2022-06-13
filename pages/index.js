@@ -43,7 +43,7 @@ export default function Home() {
       try {
          todoDispatch({ isLoading: true });
          const token = localStorage.getItem("token");
-         if (token) {
+         if (token && token.length > 20) {
             axios
                .get(apiUrl, { headers: { Authorization: `Todo ${token}` } })
                .then((res) => {
@@ -52,9 +52,7 @@ export default function Home() {
                   userDispatch({ type: "SET_JWT", jwt: token });
                })
                .catch((err) => console.log(err));
-            setTimeout(() => {
-               todoDispatch({ isLoading: false });
-            }, 2000);
+            todoDispatch({ isLoading: false });
          } else {
             router.push("/users/login");
          }
@@ -71,42 +69,46 @@ export default function Home() {
             if (todotitle.value) {
                todoDispatch({ isLoading: true });
                const token = localStorage.getItem("token");
-               axios
-                  .post(
-                     apiUrl,
-                     {
-                        title: todotitle.value,
-                     },
-                     { headers: { Authorization: `Todo ${token}` } }
-                  )
-                  .then((res) => {
-                     if (res.data.success) {
-                        todoDispatch({
-                           type: "CERATE_NEW_TODO",
-                           todos: res.data.todos,
-                           todoAlert: {
-                              msg: "success create todo",
-                              classes: "bg-green-500",
-                           },
-                           isLoading: false,
-                        });
-                     } else {
-                        todoDispatch({
-                           todoAlert: {
-                              msg: "todo already exist",
-                              classes: "bg-red-500",
-                           },
-                           isLoading: false,
-                        });
-                     }
-                  })
-                  .catch((err) => console.log(err));
-               todotitle.value = "";
-               todoDispatch({ isLoading: false });
+               if (token && token.length > 20) {
+                  axios
+                     .post(
+                        apiUrl,
+                        {
+                           title: todotitle.value,
+                        },
+                        { headers: { Authorization: `Todo ${token}` } }
+                     )
+                     .then((res) => {
+                        if (res.data.success) {
+                           todoDispatch({
+                              type: "CERATE_NEW_TODO",
+                              todos: res.data.todos,
+                              todoAlert: {
+                                 msg: "success create todo",
+                                 classes: "bg-green-500",
+                              },
+                              isLoading: false,
+                           });
+                        } else {
+                           todoDispatch({
+                              todoAlert: {
+                                 msg: "todo already exist",
+                                 classes: "bg-red-500",
+                              },
+                              isLoading: false,
+                           });
+                        }
+                     })
+                     .catch((err) => console.log(err));
+                  todotitle.value = "";
+                  // todoDispatch({ isLoading: false });
+               } else {
+                  router.push("/users/login");
+               }
             } else {
                todoDispatch({
                   todoAlert: { msg: "Ooops! Title is required", classes: "bg-red-500" },
-                  isLoading: false,
+                  // isLoading: false,
                });
             }
          }
@@ -128,21 +130,24 @@ export default function Home() {
    }, [todoState?.todoAlert.msg]);
 
    useEffect(() => {
+      console.log({ todoState });
       getAllTodos();
    }, []);
    return (
       <div className="">
-         <main className={`${todoState?.isLoading ? "z-0 opacity-60" : "z-10 opacity-100 "}  }`}>
+         <main className={`${todoState.isLoading ? "z-0 opacity-60" : "z-10 opacity-100 "}  }`}>
             {/* TODO FORM */}
             <section className="bg-slate-700 w-11/12 sm:w-3/3 md:w-2/3 rounded m-auto mt-10 py-10">
-               {todoState?.isLoading && (
+               {todoState.isLoading && (
                   <div className="text-center  w-60 m-auto items-center">
                      <div className="animate-spin border-8 border-white w-10 h-10 rounded-full border-dashed  m-auto  border-l-slate-800 border-t-green-100 border-r-blue-800 border-b-sky-400"></div>
                   </div>
                )}
                <h1 className="text-5xl font-bold  pt-5 text-center text-white">Todo APP</h1>
 
-               <Alert classes={todoState.todoAlert.classes} msg={todoState?.todoAlert.msg} />
+               {todoState.todoAlert.msg && (
+                  <Alert classes={todoState?.todoAlert.classes} msg={todoState?.todoAlert.msg} />
+               )}
 
                {/* TODO FORM */}
                <TodoForm

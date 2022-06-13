@@ -1,9 +1,11 @@
 import { TrashIcon, PencilAltIcon } from "@heroicons/react/solid";
 import axios from "axios";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTodoContext } from "../../context/state";
 
 const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
+   const router = useRouter();
    // context api with reducer
    const [todoState, todoDispatch] = useTodoContext();
    // the checkbox state ( todo completed or not)
@@ -18,18 +20,22 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
       try {
          todoDispatch({ isLoading: true });
          const token = localStorage.getItem("token");
-         axios
-            .delete(`${apiUrl}/${id}`, { headers: { Authorization: `Todo ${token}` } })
-            .then((res) => {
-               todoDispatch({
-                  type: "DELETE_TODO",
-                  todos: res.data.todos,
-                  isLoading: false,
-                  todoAlert: { msg: "todo deleted", classes: "bg-green-500" },
-               });
-            })
-            .catch((err) => console.log(err));
-         createTodoAlerts(todoState?.todoAlert.msg, todoState?.todoAlert.classes);
+         if (token && token.length > 20) {
+            axios
+               .delete(`${apiUrl}/${id}`, { headers: { Authorization: `Todo ${token}` } })
+               .then((res) => {
+                  todoDispatch({
+                     type: "DELETE_TODO",
+                     todos: res.data.todos,
+                     isLoading: false,
+                     todoAlert: { msg: "todo deleted", classes: "bg-green-500" },
+                  });
+               })
+               .catch((err) => console.log(err));
+            createTodoAlerts(todoState?.todoAlert.msg, todoState?.todoAlert.classes);
+         } else {
+            router.push("/users/login");
+         }
       } catch (error) {
          console.log(error);
       }
@@ -40,28 +46,32 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
       try {
          todoDispatch({ isLoading: true });
          const token = localStorage.getItem("token");
-         axios
-            .patch(
-               `${apiUrl}/${_id}`,
-               {
-                  _id,
-                  completed: isCompletedTodo,
-               },
-               { headers: { Authorization: `Todo ${token}` } }
-            )
-            .then((res) => {
-               const todos = res.data.todos;
-               todoDispatch({
-                  type: "PATCH_TODO_IS_COMPLETED",
-                  todos,
-                  todoAlert: {
-                     msg: `${isCompletedTodo ? "todo completed" : "todo not completed"}`,
-                     classes: "bg-green-500",
+         if (token && token.length > 20) {
+            axios
+               .patch(
+                  `${apiUrl}/${_id}`,
+                  {
+                     _id,
+                     completed: isCompletedTodo,
                   },
-                  isLoading: false,
-               });
-            })
-            .catch((err) => console.log(err));
+                  { headers: { Authorization: `Todo ${token}` } }
+               )
+               .then((res) => {
+                  const todos = res.data.todos;
+                  todoDispatch({
+                     type: "PATCH_TODO_IS_COMPLETED",
+                     todos,
+                     todoAlert: {
+                        msg: `${isCompletedTodo ? "todo completed" : "todo not completed"}`,
+                        classes: "bg-green-500",
+                     },
+                     isLoading: false,
+                  });
+               })
+               .catch((err) => console.log(err));
+         } else {
+            router.push("/users/login");
+         }
       } catch (error) {
          console.log(error);
       }

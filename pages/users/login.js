@@ -3,13 +3,12 @@ import axios from "axios";
 import { useRef, useEffect } from "react";
 import { useUserContext } from "../../context/state";
 import Alert from "../../components/Alert";
-import { setCookies } from "cookies-next";
 import { useRouter } from "next/router";
 
 // let apiUrl = "http://localhost:3000/api/v1/users/login";
 let apiUrl = "https://todo-list-mem.vercel.app/api/v1/users/login";
 
-const Login = (data) => {
+const Login = () => {
    const [userState, userDispatch] = useUserContext();
    const router = useRouter();
 
@@ -49,7 +48,7 @@ const Login = (data) => {
          if (!validPassword) {
             userDispatch({
                type: "LOGIN",
-               userAlert: { msg: "Password Should Be More Then 8 Chars", classes: "bg-red-500" },
+               userAlert: { msg: "Password Should be bigger Then 8 Chars", classes: "bg-red-500" },
             });
          }
          // if the email and password is valid patterns
@@ -58,11 +57,11 @@ const Login = (data) => {
             if (emailValue && passwordValue) {
                axios
                   .post(apiUrl, { user: { email: emailValue.toLowerCase(), password: passwordValue } })
-                  .then((res) => {
-                     const msg = res.data.msg;
-                     const success = res.data.success;
-                     const user = res.data.isUserExist;
-                     const jwt = res.data.jwt;
+                  .then(async (res) => {
+                     const msg = await res.data.msg;
+                     const success = await res.data.success;
+                     const user = await res.data.isUserExist;
+                     const jwt = await res.data.jwt;
                      if (success) {
                         localStorage.setItem("token", jwt);
                         userDispatch({
