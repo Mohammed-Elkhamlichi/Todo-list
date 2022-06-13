@@ -18,7 +18,6 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
    // Delete Todo Function
    const handledDeleteTodoBtn = (id) => {
       try {
-         todoDispatch({ isLoading: true });
          const token = localStorage.getItem("token");
          if (token && token.length > 20) {
             axios
@@ -27,7 +26,7 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
                   todoDispatch({
                      type: "DELETE_TODO",
                      todos: res.data.todos,
-                     isLoading: false,
+
                      todoAlert: { msg: "todo deleted", classes: "bg-green-500" },
                   });
                })
@@ -44,7 +43,6 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
    // when the Check box state change
    const handleCheckBox = (e) => {
       try {
-         todoDispatch({ isLoading: true });
          const token = localStorage.getItem("token");
          if (token && token.length > 20) {
             axios
@@ -65,7 +63,6 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
                         msg: `${isCompletedTodo ? "todo completed" : "todo not completed"}`,
                         classes: "bg-green-500",
                      },
-                     isLoading: false,
                   });
                })
                .catch((err) => console.log(err));
@@ -80,10 +77,9 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
    // Update Todo Function
    const handleUpdateTodoBtn = (todo) => {
       try {
-         todoDispatch({ isLoading: true });
          window.scrollTo({ top: 0, behavior: "auto" });
          todoInput.current.value = todo.title;
-         todoDispatch({ type: "BTN_UPDATE_TODO_CLICKED", todo, isLoading: false });
+         todoDispatch({ type: "BTN_UPDATE_TODO_CLICKED", todo });
       } catch (error) {
          console.log(error);
       }

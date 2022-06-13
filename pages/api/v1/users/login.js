@@ -27,6 +27,8 @@ const loginHandler = async (req, res) => {
                const salt = await isUserExist.salt;
                // the existing user email
                const email = await isUserExist.email;
+               // the existing user username
+               const username = await isUserExist.username;
                // the existing user password hashed.
                const hashPassword = await isUserExist.password;
                // the user password from the clien
@@ -36,7 +38,7 @@ const loginHandler = async (req, res) => {
                // If the password is correct
                if (isValidPassword && email === user.email) {
                   // Generate a JsonWebToken
-                  const jwt = await generateJWT(salt, isValidPassword);
+                  const jwt = await generateJWT(salt, isValidPassword, username);
                   // Send Response to the client
                   res.status(200).json({
                      success: true,

@@ -6,11 +6,10 @@ export const todoInitialState = {
    // when create new todo
    isAddTodo: true,
    isUpdateTodo: false,
-   isLoading: false,
+   isLoading: true,
 };
 
 export const todoReducer = (state, action) => {
-   let isLoading = action.isLoading || false;
    let todoAlert = action.todoAlert || state.todoAlert;
    let todo = action.todo || state.todo;
    let todos = action.todos || state.todos;
@@ -19,7 +18,6 @@ export const todoReducer = (state, action) => {
       case "GET_TODOS":
          return {
             ...state,
-            isLoading,
             todos,
             todo,
             todoAlert,
@@ -32,7 +30,6 @@ export const todoReducer = (state, action) => {
             isUpdateTodo: false,
             isAddTodo: true,
             todoAlert,
-            isLoading,
          };
       // when the user click on btn edit todo
       case "BTN_UPDATE_TODO_CLICKED":
@@ -42,7 +39,6 @@ export const todoReducer = (state, action) => {
             isUpdateTodo: true,
             isAddTodo: false,
             todoAlert,
-            isLoading,
          };
       // update an existing todo
       case "FORM_UPDATE_TODO_SUBMIT":
@@ -52,7 +48,6 @@ export const todoReducer = (state, action) => {
             todos,
             isUpdateTodo: false,
             isAddTodo: true,
-            isLoading,
             todoAlert,
          };
       // update the state of an existing todo
@@ -60,7 +55,6 @@ export const todoReducer = (state, action) => {
          return {
             ...state,
             todos,
-            isLoading,
             todoAlert,
          };
       // deleting todo
@@ -68,14 +62,16 @@ export const todoReducer = (state, action) => {
          return {
             ...state,
             todos,
-            isLoading,
             todoAlert,
          };
+      case "SET_LOADING_STATE":
+         const isLoading = action.isLoading;
+         return { ...state, isLoading };
       // defalut reducer
+
       default:
          return {
             ...state,
-            isLoading,
             todoAlert,
          };
    }

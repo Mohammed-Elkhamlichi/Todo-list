@@ -16,8 +16,6 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
       try {
          if (todoState?.isUpdateTodo) {
             e.preventDefault();
-
-            todoDispatch({ isLoading: true });
             const token = localStorage.getItem("token");
             if (token && token.length > 20) {
                axios
@@ -37,7 +35,6 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
                         todo,
                         todos,
                         todoAlert: { msg: "todo has been update", classes: "bg-green-500" },
-                        isLoading: false,
                      });
                      setTodoTitle("");
                   })

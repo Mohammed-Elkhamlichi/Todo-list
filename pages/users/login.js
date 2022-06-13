@@ -72,7 +72,7 @@ const Login = () => {
                         });
                         setTimeout(() => {
                            router.push("/");
-                        }, 2000);
+                        }, 3000);
                      }
 
                      if (!success) {

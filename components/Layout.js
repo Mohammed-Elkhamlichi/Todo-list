@@ -1,9 +1,19 @@
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 import Head from "next/head";
-import { useUserContext } from "../context/state";
+import { useTodoContext } from "../context/state";
+import { useEffect } from "react";
 
 const Layout = ({ children }) => {
+   const [todoState, todoDispatch] = useTodoContext();
+
+   useEffect(() => {
+      // todoDispatch({ type: "SET_LOADING_STATE", isLoading: true });
+      setTimeout(() => {
+         todoDispatch({ type: "SET_LOADING_STATE", isLoading: false });
+      }, 2000);
+   }, []);
+
    return (
       <>
          <Head>
@@ -16,13 +26,21 @@ const Layout = ({ children }) => {
 
             <link rel="icon" href="/favicon.ico" />
          </Head>
-         <header>
-            <Navbar />
-         </header>
-
-         <main>{children}</main>
-
-         <Footer />
+         {!todoState.isLoading ? (
+            <>
+               <header>
+                  <Navbar />
+               </header>
+               <main>{children}</main>
+               <Footer />
+            </>
+         ) : (
+            <div className="flex items-center justify-center space-x-2 animate-bounce mt-96">
+               <div className="w-8 h-8 bg-blue-400 rounded-full"></div>
+               <div className="w-8 h-8 bg-green-400 rounded-full"></div>
+               <div className="w-8 h-8 bg-black rounded-full"></div>
+            </div>
+         )}
       </>
    );
 };

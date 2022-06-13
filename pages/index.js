@@ -20,6 +20,8 @@ export default function Home() {
    const [todoState, todoDispatch] = useTodoContext();
    const [userState, userDispatch] = useUserContext();
 
+   const [loading, setLoading] = useState(true);
+
    // get the todo title input
    const todoInput = useRef(null);
    const completedRef = useRef(null);
@@ -37,7 +39,6 @@ export default function Home() {
    // get all Todos Function
    const getAllTodos = () => {
       try {
-         todoDispatch({ isLoading: true });
          const token = localStorage.getItem("token");
          if (token && token.length > 20) {
             axios
@@ -48,7 +49,6 @@ export default function Home() {
                   userDispatch({ type: "SET_JWT", jwt: token });
                })
                .catch((err) => console.log(err));
-            todoDispatch({ isLoading: false });
          } else {
             router.push("/users/login");
          }
@@ -63,7 +63,6 @@ export default function Home() {
          if (todoState?.isAddTodo) {
             let todotitle = todoInput.current;
             if (todotitle.value) {
-               todoDispatch({ isLoading: true });
                const token = localStorage.getItem("token");
                if (token && token.length > 20) {
                   axios
@@ -83,7 +82,6 @@ export default function Home() {
                                  msg: "success create todo",
                                  classes: "bg-green-500",
                               },
-                              isLoading: false,
                            });
                         } else {
                            todoDispatch({
@@ -91,20 +89,17 @@ export default function Home() {
                                  msg: "todo already exist",
                                  classes: "bg-red-500",
                               },
-                              isLoading: false,
                            });
                         }
                      })
                      .catch((err) => console.log(err));
                   todotitle.value = "";
-                  // todoDispatch({ isLoading: false });
                } else {
                   router.push("/users/login");
                }
             } else {
                todoDispatch({
                   todoAlert: { msg: "Ooops! Title is required", classes: "bg-red-500" },
-                  // isLoading: false,
                });
             }
          }
@@ -126,25 +121,18 @@ export default function Home() {
    }, [todoState?.todoAlert.msg]);
 
    useEffect(() => {
-      console.log({ todoState });
       getAllTodos();
+      console.log(todoState.todos.length);
    }, []);
+
    return (
       <div className="">
-         <main className={`${todoState.isLoading ? "z-0 opacity-60" : "z-10 opacity-100 "}  }`}>
-            {/* TODO FORM */}
+         <main className="">
             <section className="bg-slate-700 w-11/12 sm:w-3/3 md:w-2/3 rounded m-auto mt-10 py-10">
-               {todoState.isLoading && (
-                  <div className="text-center  w-60 m-auto items-center">
-                     <div className="animate-spin border-8 border-white w-10 h-10 rounded-full border-dashed  m-auto  border-l-slate-800 border-t-green-100 border-r-blue-800 border-b-sky-400"></div>
-                  </div>
-               )}
                <h1 className="text-5xl font-bold  pt-5 text-center text-white">Todo APP</h1>
-
                {todoState.todoAlert.msg && (
                   <Alert classes={todoState?.todoAlert.classes} msg={todoState?.todoAlert.msg} />
                )}
-
                {/* TODO FORM */}
                <TodoForm
                   createTodoAlerts={createTodoAlerts}
@@ -155,13 +143,12 @@ export default function Home() {
 
             <section className="bg-slate-700 w-11/12 sm:w-3/3 md:w-2/3 rounded m-auto mt-5 mb-20 py-10">
                <h1 className="text-5xl font-bold  pt-5 text-center text-white">Todo List</h1>
-
-               {!todoState.todos.length ? (
+               {todoState.todos.length && !todoState.isLoading ? (
+                  <TodoList createTodoAlerts={createTodoAlerts} todoInput={todoInput} completedRef={completedRef} />
+               ) : (
                   <h1 className="bg-sky-500 px-2 py-2 w-10/12 m-auto rounded mt-5 font-mono text-justify text-base">
                      Add your to do List , Start the work and Achieve your Dreams
                   </h1>
-               ) : (
-                  <TodoList createTodoAlerts={createTodoAlerts} todoInput={todoInput} completedRef={completedRef} />
                )}
             </section>
          </main>

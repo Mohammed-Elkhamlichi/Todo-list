@@ -2,8 +2,8 @@ import { MoonIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useUserContext } from "../context/state";
-
+import { useTodoContext, useUserContext } from "../context/state";
+const jwt = require("jsonwebtoken");
 const Navbar = () => {
    const [isDarkTheme, setIsDarkTheme] = useState(true);
    const router = useRouter();
@@ -11,6 +11,9 @@ const Navbar = () => {
    const [navFixed, setNavFixed] = useState(false);
    const [windowScrollY, setWindowScrollY] = useState();
    const [userState, userDispatch] = useUserContext();
+   const [todoState, todoDispatch] = useTodoContext();
+   const [username, setUsername] = useState(null);
+
    useEffect(() => {
       window.onscroll = () => {
          if (window.scrollY >= 200) {
@@ -26,11 +29,23 @@ const Navbar = () => {
       userDispatch({ type: "LOGOUT", jwt: null });
       router.push("/users/login");
    };
-   useEffect(() => {
-      if (localStorage.getItem("token") || userState.jwt !== null) {
+
+   const checkJWT = async () => {
+      const PRIVATE_KEY = process.env.PRIVATE_KEY;
+      const token = await localStorage.getItem("token");
+
+      if (token || userState.jwt !== null) {
+         // get thee username from the token
+         const validJWT = await jwt.decode(token, PRIVATE_KEY);
+         setUsername(validJWT.username);
          router.push("/");
       } else router.push("/users/login");
+   };
+
+   useEffect(() => {
+      checkJWT();
    }, [userState.jwt]);
+
    return (
       <>
          <nav
@@ -78,12 +93,11 @@ const Navbar = () => {
                </li> */}
             </ul>
          </nav>
-         {!userState.jwt ||
-            (userState.jwt === null && (
-               <div className="bg-white animate-pulse w-72 rounded-lg  mx-auto my-5  px-5 py-2 or text-center flex flex-row items-center">
-                  Welcome Back {userState.user.username} &#128587;
-               </div>
-            ))}
+         {userState.jwt && (
+            <div className="bg-white animate-pulse w-72 rounded-lg  mx-auto my-5  px-5 py-2 or text-center flex flex-row items-center">
+               Welcome Back {username} &#128587;
+            </div>
+         )}
       </>
    );
 };
