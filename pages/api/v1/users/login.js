@@ -2,6 +2,10 @@ import NextCors from "nextjs-cors";
 import { connectDB } from "../../../../db/connectDB";
 import User from "../../../../users/models/User";
 import validPassword from "../../../../utils/validPassword";
+import generateJWT from "../../../../utils/generateJWT";
+const { setCookies, getCookies, removeCookies, getCookie, checkCookies } = require("cookies-next");
+
+const jsonwebtoken = require("jsonwebtoken");
 
 const loginHandler = async (req, res) => {
    try {
@@ -29,10 +33,18 @@ const loginHandler = async (req, res) => {
                const inputPassword = await user.password;
                // check if the password correct or not
                const isValidPassword = await validPassword(salt, hashPassword, inputPassword);
-               console.log({ isValidPassword });
                // If the password is correct
                if (isValidPassword && email === email) {
-                  res.status(200).json({ success: true, isValidPassword, isUserExist, msg: "Login Success, Thanks" });
+                  // Generate a JsonWebToken
+                  const jwt = await generateJWT(salt, isValidPassword);
+                  // Send Response to the client
+                  res.status(200).json({
+                     success: true,
+                     isValidPassword,
+                     isUserExist,
+                     jwt,
+                     msg: "Login Success, Thanks",
+                  });
                }
                // If the password is incorrect
                if (!isValidPassword) {

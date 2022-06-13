@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+
+import { useRouter } from "next/router";
 // context API
 import { useTodoContext, useUserContext } from "../context/state";
 // components
@@ -7,21 +9,13 @@ import TodoForm from "../todos/components/TodoForm";
 import TodoList from "../todos/components/TodoList";
 import Alert from "../components/Alert";
 
+const { setCookies, getCookies, removeCookies, getCookie, checkCookies } = require("cookies-next");
+
 // let apiUrl = "http://localhost:3000/api/v1/todos";
 let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
-// You should use getServerSideProps when:
-// - Only if you need to pre-render a page whose data must be fetched at request time
-export const getServerSideProps = async (ctx) => {
-   const res = await axios.get(apiUrl);
-   let data = await res.data;
-   return {
-      props: { data },
-   };
-};
-export default function Home({ data }) {
-   // states
-   const [isOpenAuthWindow, setIsOpenAuthWindow] = useState(false);
-   const [isLogin, setIsLogin] = useState(false);
+
+export default function Home() {
+   const router = useRouter();
    // todo Context
    const [todoState, todoDispatch] = useTodoContext();
    const [userState, userDispatch] = useUserContext();
@@ -47,11 +41,24 @@ export default function Home({ data }) {
    // get all Todos Function
    const getAllTodos = () => {
       try {
+         console.log({ userState });
          todoDispatch({ isLoading: true });
-         todoDispatch({ type: "GET_TODOS", todos: data.todos });
-         setTimeout(() => {
-            todoDispatch({ isLoading: false });
-         }, 2000);
+         const token = localStorage.getItem("token");
+         if (token) {
+            axios
+               .get(apiUrl, { headers: { Authorization: `Todo ${token}` } })
+               .then((res) => {
+                  const data = res.data;
+                  todoDispatch({ type: "GET_TODOS", todos: data.todos });
+                  userDispatch({ type: "SET_JWT", jwt: token });
+               })
+               .catch((err) => console.log(err));
+            setTimeout(() => {
+               todoDispatch({ isLoading: false });
+            }, 2000);
+         } else {
+            router.push("/users/login");
+         }
       } catch (error) {
          console.log(error);
       }
@@ -64,10 +71,15 @@ export default function Home({ data }) {
             let todotitle = todoInput.current;
             if (todotitle.value) {
                todoDispatch({ isLoading: true });
+               const token = localStorage.getItem("token");
                axios
-                  .post(apiUrl, {
-                     title: todotitle.value,
-                  })
+                  .post(
+                     apiUrl,
+                     {
+                        title: todotitle.value,
+                     },
+                     { headers: { Authorization: `Todo ${token}` } }
+                  )
                   .then((res) => {
                      if (res.data.success) {
                         todoDispatch({
@@ -111,21 +123,17 @@ export default function Home({ data }) {
    };
 
    // re-rendre and refresh the data
-   useEffect(() => {
-      userDispatch({ isOpenAuthWindow: false });
-      getAllTodos();
-   }, []);
 
    useEffect(() => {
       createTodoAlerts(todoState?.todoAlert.msg, todoState?.todoAlert.classes);
    }, [todoState?.todoAlert.msg]);
 
+   useEffect(() => {
+      getAllTodos();
+   }, []);
    return (
       <div className="">
-         <main
-            className={`${
-               userState?.isOpenAuthWindow || todoState?.isLoading ? "z-0 opacity-60" : "z-10 opacity-100 "
-            }  }`}>
+         <main className={`${todoState?.isLoading ? "z-0 opacity-60" : "z-10 opacity-100 "}  }`}>
             {/* TODO FORM */}
             <section className="bg-slate-700 w-11/12 sm:w-3/3 md:w-2/3 rounded m-auto mt-10 py-10">
                {todoState?.isLoading && (
@@ -147,8 +155,14 @@ export default function Home({ data }) {
 
             <section className="bg-slate-700 w-11/12 sm:w-3/3 md:w-2/3 rounded m-auto mt-5 mb-20 py-10">
                <h1 className="text-5xl font-bold  pt-5 text-center text-white">Todo List</h1>
-               {/* TODO LIST */}
-               <TodoList createTodoAlerts={createTodoAlerts} todoInput={todoInput} completedRef={completedRef} />
+
+               {!todoState.todos || !todoState.todo ? (
+                  <h1 className="bg-sky-500 px-2 py-2 w-10/12 m-auto rounded mt-5 font-mono text-justify text-base">
+                     Add Your First Todo and Start the work and get your dreams
+                  </h1>
+               ) : (
+                  <TodoList createTodoAlerts={createTodoAlerts} todoInput={todoInput} completedRef={completedRef} />
+               )}
             </section>
          </main>
       </div>

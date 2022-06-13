@@ -17,8 +17,9 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
    const handledDeleteTodoBtn = (id) => {
       try {
          todoDispatch({ isLoading: true });
+         const token = localStorage.getItem("token");
          axios
-            .delete(`${apiUrl}/${id}`)
+            .delete(`${apiUrl}/${id}`, { headers: { Authorization: `Todo ${token}` } })
             .then((res) => {
                todoDispatch({
                   type: "DELETE_TODO",
@@ -38,12 +39,16 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
    const handleCheckBox = (e) => {
       try {
          todoDispatch({ isLoading: true });
-         console.log(isCompletedTodo);
+         const token = localStorage.getItem("token");
          axios
-            .patch(`${apiUrl}/${_id}`, {
-               _id,
-               completed: isCompletedTodo,
-            })
+            .patch(
+               `${apiUrl}/${_id}`,
+               {
+                  _id,
+                  completed: isCompletedTodo,
+               },
+               { headers: { Authorization: `Todo ${token}` } }
+            )
             .then((res) => {
                const todos = res.data.todos;
                todoDispatch({
@@ -94,7 +99,7 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
                checked={completed}
             />
          </div>
-         <div className=" text-sm ">
+         <div className=" text-sm px-3 text-justify">
             {completed ? (
                <h1>
                   <i>

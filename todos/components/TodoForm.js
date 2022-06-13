@@ -15,12 +15,16 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
             e.preventDefault();
 
             todoDispatch({ isLoading: true });
-
+            const token = localStorage.getItem("token");
             axios
-               .patch(`${apiUrl}/${todoState?.todo._id}`, {
-                  completed: todoState.todo.completed,
-                  title: todoTitle || todoState.todo.title,
-               })
+               .patch(
+                  `${apiUrl}/${todoState?.todo._id}`,
+                  {
+                     completed: todoState.todo.completed,
+                     title: todoTitle || todoState.todo.title,
+                  },
+                  { headers: { Authorization: `Todo ${token}` } }
+               )
                .then((res) => {
                   const todo = res.data.todo;
                   const todos = res.data.todos;

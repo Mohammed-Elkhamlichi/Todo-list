@@ -1,6 +1,7 @@
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 import Head from "next/head";
+import { useUserContext } from "../context/state";
 
 const Layout = ({ children }) => {
    return (

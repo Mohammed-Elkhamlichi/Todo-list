@@ -1,14 +1,17 @@
 import Link from "next/link";
 import axios from "axios";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useUserContext } from "../../context/state";
 import Alert from "../../components/Alert";
+import { setCookies } from "cookies-next";
+import { useRouter } from "next/router";
 
 // const apiUrl = "http://localhost:3000/api/v1/users/login";
 let apiUrl = "https://todo-list-mem.vercel.app/api/v1/users/login";
 
 const Login = (data) => {
    const [userState, userDispatch] = useUserContext();
+   const router = useRouter();
 
    const emailRef = useRef(null);
    const passwordRef = useRef(null);
@@ -58,13 +61,21 @@ const Login = (data) => {
                   .then((res) => {
                      const msg = res.data.msg;
                      const success = res.data.success;
-
+                     const user = res.data.isUserExist;
+                     const jwt = res.data.jwt;
                      if (success) {
+                        localStorage.setItem("token", jwt);
                         userDispatch({
                            type: "LOGIN",
                            userAlert: { msg, classes: "bg-green-500" },
+                           jwt,
+                           user,
                         });
+                        setTimeout(() => {
+                           router.push("/");
+                        }, 2000);
                      }
+
                      if (!success) {
                         userDispatch({
                            type: "LOGIN",
@@ -89,6 +100,9 @@ const Login = (data) => {
          });
       }
    };
+   // useEffect(() => {
+   //    if (localStorage.getItem("token")) router.push("/");
+   // }, []);
 
    return (
       <>
@@ -100,7 +114,7 @@ const Login = (data) => {
                   handleLoginForm(e);
                }}>
                <h1 className="text-4xl sm:text-5xl text-white font-bold my-10">Login Form</h1>
-               <Alert msg={userState?.userAlert.msg ?? ""} classes={userState?.userAlert.classes ?? ""} />
+               <Alert msg={userState?.userAlert?.msg ?? ""} classes={userState?.userAlert?.classes ?? ""} />
                <div className="flex flex-col items-center my-5 w-10/12 sm:w-3/4 lg:w-2/4">
                   <div className="my-2 m-auto w-full">
                      <input
@@ -111,6 +125,7 @@ const Login = (data) => {
                         placeholder="Email"
                         autoCorrect="false"
                         autoComplete="false"
+                        autoCapitalize="false"
                         className="py-2 px-3 text-lg rounded outline-yellow-600 outline-4 placeholder:text-yellow-600 placeholder:opacity-80 w-full"
                      />
                   </div>

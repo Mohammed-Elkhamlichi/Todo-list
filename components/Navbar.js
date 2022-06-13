@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useUserContext } from "../context/state";
 
 const Navbar = () => {
+   const router = useRouter();
    // controle the nav bar position
    const [navFixed, setNavFixed] = useState(false);
    const [windowScrollY, setWindowScrollY] = useState();
@@ -17,7 +19,16 @@ const Navbar = () => {
          }
       };
    }, [windowScrollY]);
-
+   const handleLogOut = () => {
+      localStorage.removeItem("token");
+      userDispatch({ type: "LOGOUT", jwt: null });
+      router.push("/users/login");
+   };
+   useEffect(() => {
+      if (localStorage.getItem("token") || userState.jwt) {
+         router.push("/");
+      } else router.push("/users/login");
+   }, [userState.jwt]);
    return (
       <>
          <nav
@@ -30,19 +41,33 @@ const Navbar = () => {
                </Link>
             </h1>
             <ul className="flex flex-row m-2">
-               <li className="m-2">
-                  <Link href="/users/login">
-                     <a className="p-2  hover:font-bold text-lg hover:animate-bounce">Log In</a>
-                  </Link>
-               </li>
-
-               {/* <li className="m-2">
-                        <Link href="/users/login">
-                            <a className="p-2  hover:font-bold text-lg hover:animate-bounce">Log Out</a>
-                        </Link>
-                    </li> */}
+               {!userState.jwt ? (
+                  <li className="m-2">
+                     <Link href="/users/login">
+                        <a className="p-2  hover:font-bold text-lg hover:animate-bounce">Log In</a>
+                     </Link>
+                  </li>
+               ) : (
+                  <li className="m-2">
+                     <Link href="/users/login">
+                        <a
+                           className="p-2  hover:font-bold text-lg hover:animate-bounce"
+                           onClick={() => {
+                              handleLogOut();
+                           }}>
+                           Log Out
+                        </a>
+                     </Link>
+                  </li>
+               )}
             </ul>
          </nav>
+         {!userState.jwt ||
+            (userState.jwt === null && (
+               <div className="bg-white animate-pulse w-72 rounded-lg  mx-auto my-5  px-5 py-2 or text-center flex flex-row items-center">
+                  Welcome Back {userState.user.username} &#128587;
+               </div>
+            ))}
       </>
    );
 };

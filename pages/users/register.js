@@ -109,7 +109,6 @@ const Register = () => {
             });
          }
       } catch (error) {
-         console.log(error);
          userDispatch({
             type: "REGISTER",
             userAlert: { msg: "Internal Server Error", classes: "bg-red-500" },
@@ -139,6 +138,7 @@ const Register = () => {
                         placeholder="Username"
                         autoCorrect="false"
                         autoComplete="false"
+                        autoCapitalize="true"
                         className="py-2 px-3 text-lg rounded outline-yellow-600 outline-4 placeholder:text-yellow-600 placeholder:opacity-80 w-full"
                      />
                   </div>
@@ -151,6 +151,7 @@ const Register = () => {
                         placeholder="Email"
                         autoCorrect="false"
                         autoComplete="false"
+                        autoCapitalize="false"
                         className="py-2 px-3 text-lg rounded outline-yellow-600 outline-4 placeholder:text-yellow-600 placeholder:opacity-80 w-full"
                      />
                   </div>
