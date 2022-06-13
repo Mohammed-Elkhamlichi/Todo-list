@@ -41,7 +41,6 @@ export default function Home() {
    // get all Todos Function
    const getAllTodos = () => {
       try {
-         console.log({ userState });
          todoDispatch({ isLoading: true });
          const token = localStorage.getItem("token");
          if (token) {
