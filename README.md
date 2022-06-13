@@ -10,6 +10,13 @@ PRIVATE_KEY=
 
 ```
 
+The, Install the dependencies
+
+```bash
+npm i
+
+```
+
 Then, run the development server:
 
 ```bash
