@@ -25,7 +25,7 @@ const Navbar = () => {
       router.push("/users/login");
    };
    useEffect(() => {
-      if (localStorage.getItem("token") || userState.jwt) {
+      if (localStorage.getItem("token") || userState.jwt !== null) {
          router.push("/");
       } else router.push("/users/login");
    }, [userState.jwt]);

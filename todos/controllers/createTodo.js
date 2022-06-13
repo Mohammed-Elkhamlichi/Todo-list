@@ -6,15 +6,14 @@ import User from "../../users/models/User";
 const createOneTodo = async (req, res) => {
    try {
       const PRIVATE_KEY = process.env.PRIVATE_KEY;
-      // console.log({ headers: req.headers });
       const [Schema, token] = await req.headers.authorization.split(" ");
       const validJwt = await jwt.verify(token, PRIVATE_KEY);
 
       if (validJwt && Schema === "Todo") {
-         const userSalt = await validJwt.salt;
-         const user = await User.findOne({ salt: userSalt });
+         const salt = await validJwt.salt;
+         const user = await User.findOne({ salt });
          if (user) {
-            const author = userSalt;
+            const author = salt;
             const title = await req.body.title;
             const findTodo = await Todo.findOne({ title, author });
             const created = new Date().getTime();
