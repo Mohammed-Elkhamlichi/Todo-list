@@ -34,7 +34,7 @@ const loginHandler = async (req, res) => {
                // check if the password correct or not
                const isValidPassword = await validPassword(salt, hashPassword, inputPassword);
                // If the password is correct
-               if (isValidPassword && email === email) {
+               if (isValidPassword && email === user.email) {
                   // Generate a JsonWebToken
                   const jwt = await generateJWT(salt, isValidPassword);
                   // Send Response to the client
