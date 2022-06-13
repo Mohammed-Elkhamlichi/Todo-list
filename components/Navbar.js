@@ -62,7 +62,7 @@ const Navbar = () => {
                      </Link>
                   </li>
                )}
-               <li className="m-2 p-2 text-white cursor-pointer   ">
+               {/* <li className="m-2 p-2 text-white cursor-pointer   ">
                   <MoonIcon
                      className={`h-10 text-lg w-14 ${isDarkTheme ? "text-yellow-500" : "text-black"}`}
                      onClick={() => {
@@ -75,7 +75,7 @@ const Navbar = () => {
                         }
                      }}
                   />
-               </li>
+               </li> */}
             </ul>
          </nav>
          {!userState.jwt ||
