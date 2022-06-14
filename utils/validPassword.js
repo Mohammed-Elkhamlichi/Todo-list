@@ -10,3 +10,4 @@ const validPassword = async (salt, hashPassword, inputPassword) => {
 };
 
 export default validPassword;
+//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
