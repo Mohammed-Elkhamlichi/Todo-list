@@ -2,22 +2,25 @@ import { TrashIcon, PencilAltIcon } from "@heroicons/react/solid";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useTodoContext } from "../../context/state";
+import { useTodoContext, useUserContext } from "../../context/state";
 
 const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
    const router = useRouter();
    // context api with reducer
    const [todoState, todoDispatch] = useTodoContext();
+   const [userState, userDispatch] = useUserContext();
+
    // the checkbox state ( todo completed or not)
    const [isCompletedTodo, setIsCompletedTodo] = useState(true);
 
    // let apiUrl = "http://localhost:3000/api/v1/todos";
-   let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
+   let apiUrl = "https://todo-list-mem.vercel.app/api//v1/todos";
    let { _id, title, completed } = todo;
 
    // Delete Todo Function
    const handledDeleteTodoBtn = (id) => {
       try {
+         userDispatch({ type: "SET_JWT", jwt: localStorage.getItem("token") });
          const token = localStorage.getItem("token");
          if (token && token.length > 20) {
             axios
@@ -43,6 +46,7 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
    // when the Check box state change
    const handleCheckBox = (e) => {
       try {
+         userDispatch({ type: "SET_JWT", jwt: localStorage.getItem("token") });
          const token = localStorage.getItem("token");
          if (token && token.length > 20) {
             axios
@@ -77,6 +81,7 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
    // Update Todo Function
    const handleUpdateTodoBtn = (todo) => {
       try {
+         userDispatch({ type: "SET_JWT", jwt: localStorage.getItem("token") });
          window.scrollTo({ top: 0, behavior: "auto" });
          todoInput.current.value = todo.title;
          todoDispatch({ type: "BTN_UPDATE_TODO_CLICKED", todo });

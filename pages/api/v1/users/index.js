@@ -6,7 +6,7 @@ const users = async (req, res) => {
    try {
       await NextCors(req, res, {
          methods: ["GET"],
-         origin: ["http://localhost:3000", "https://todo-list-mem.vercel.app"],
+         origin: ["https://todo-list-mem.vercel.app"],
          optionsSuccessStatus: 201,
       });
 

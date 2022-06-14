@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useTodoContext } from "../../context/state";
+import { useTodoContext, useUserContext } from "../../context/state";
 
 const TodoForm = ({ todoInput, handleAddTodoForm }) => {
    // let apiUrl = "http://localhost:3000/api/v1/todos";
@@ -10,12 +10,14 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
    const router = useRouter();
 
    const [todoState, todoDispatch] = useTodoContext();
+   const [userState, userDispatch] = useUserContext();
    const [todoTitle, setTodoTitle] = useState("");
 
    const handleUpdateTodoForm = async (e) => {
       try {
          if (todoState?.isUpdateTodo) {
             e.preventDefault();
+            userDispatch({ type: "SET_JWT", jwt: localStorage.getItem("token") });
             const token = localStorage.getItem("token");
             if (token && token.length > 20) {
                axios

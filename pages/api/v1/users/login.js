@@ -11,7 +11,7 @@ const loginHandler = async (req, res) => {
    try {
       await NextCors(req, res, {
          methods: ["POST"],
-         origin: ["http://localhost:3000", "https://todo-list-mem.vercel.app"],
+         origin: ["https://todo-list-mem.vercel.app"],
          optionsSuccessStatus: 201,
       });
       await connectDB();

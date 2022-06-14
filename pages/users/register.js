@@ -88,7 +88,7 @@ const Register = () => {
                               userAlert: { msg: "", classes: "" },
                            });
                            router.push("/users/login");
-                        }, 3000);
+                        }, 1000);
                      } else {
                         msg = await res.data.msg;
                         userDispatch({

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTodoContext, useUserContext } from "../context/state";
 const jwt = require("jsonwebtoken");
+import { validJWT } from "../utils/validJWT";
 const Navbar = () => {
    const [isDarkTheme, setIsDarkTheme] = useState(true);
    const router = useRouter();
@@ -12,7 +13,6 @@ const Navbar = () => {
    const [windowScrollY, setWindowScrollY] = useState();
    const [userState, userDispatch] = useUserContext();
    const [todoState, todoDispatch] = useTodoContext();
-   const [username, setUsername] = useState(null);
 
    useEffect(() => {
       window.onscroll = () => {
@@ -24,27 +24,12 @@ const Navbar = () => {
          }
       };
    }, [windowScrollY]);
+
    const handleLogOut = () => {
       localStorage.removeItem("token");
       userDispatch({ type: "LOGOUT", jwt: null });
       router.push("/users/login");
    };
-
-   const checkJWT = async () => {
-      const PRIVATE_KEY = process.env.PRIVATE_KEY;
-      const token = await localStorage.getItem("token");
-
-      if (token || userState.jwt !== null) {
-         // get thee username from the token
-         const validJWT = await jwt.decode(token, PRIVATE_KEY);
-         setUsername(validJWT.username);
-         router.push("/");
-      } else router.push("/users/login");
-   };
-
-   useEffect(() => {
-      checkJWT();
-   }, [userState.jwt]);
 
    return (
       <>
@@ -58,7 +43,7 @@ const Navbar = () => {
                </Link>
             </h1>
             <ul className="flex flex-row m-2 items-center">
-               {!userState.jwt ? (
+               {!userState.jwt && !localStorage.getItem("token")?.length ? (
                   <li className="m-2">
                      <Link href="/users/login">
                         <a className="p-2  hover:font-bold text-lg hover:animate-bounce">Log In</a>
@@ -77,27 +62,12 @@ const Navbar = () => {
                      </Link>
                   </li>
                )}
-               {/* <li className="m-2 p-2 text-white cursor-pointer   ">
-                  <MoonIcon
-                     className={`h-10 text-lg w-14 ${isDarkTheme ? "text-yellow-500" : "text-black"}`}
-                     onClick={() => {
-                        setIsDarkTheme(!isDarkTheme);
-                        console.log("dark/light");
-                        if (isDarkTheme) {
-                           console.log(true);
-                        } else {
-                           console.log(false);
-                        }
-                     }}
-                  />
-               </li> */}
             </ul>
          </nav>
-         {userState.jwt && (
-            <div className="bg-white animate-pulse w-72 rounded-lg  mx-auto my-5  px-5 py-2 or text-center flex flex-row items-center">
+
+         {/* <div className="bg-white animate-pulse w-72 rounded-lg  mx-auto my-5  px-5 py-2 or text-center flex flex-row items-center">
                Welcome Back {username} &#128587;
-            </div>
-         )}
+            </div> */}
       </>
    );
 };

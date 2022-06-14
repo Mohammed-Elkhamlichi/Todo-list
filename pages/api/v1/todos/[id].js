@@ -7,7 +7,7 @@ const handler = async (req, res) => {
    // Cors
    await NextCors(req, res, {
       methods: ["PATCH", "DELETE"],
-      origin: ["http://localhost:3000", "https://todo-list-mem.vercel.app"],
+      origin: ["https://todo-list-mem.vercel.app"],
       optionsSuccessStatus: 201,
    });
    // DB connection

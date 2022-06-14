@@ -9,6 +9,8 @@ import TodoForm from "../todos/components/TodoForm";
 import TodoList from "../todos/components/TodoList";
 import Alert from "../components/Alert";
 
+import { validJWT } from "../utils/validJWT";
+
 const { setCookies, getCookies, removeCookies, getCookie, checkCookies } = require("cookies-next");
 
 // let apiUrl = "http://localhost:3000/api/v1/todos";
@@ -19,8 +21,6 @@ export default function Home() {
    // todo Context
    const [todoState, todoDispatch] = useTodoContext();
    const [userState, userDispatch] = useUserContext();
-
-   const [loading, setLoading] = useState(true);
 
    // get the todo title input
    const todoInput = useRef(null);
@@ -39,6 +39,7 @@ export default function Home() {
    // get all Todos Function
    const getAllTodos = () => {
       try {
+
          const token = localStorage.getItem("token");
          if (token && token.length > 20) {
             axios
@@ -60,6 +61,8 @@ export default function Home() {
    // Add Todo Function
    const createTodo = () => {
       try {
+         validJWT(router);
+         userDispatch({ type: "SET_JWT", jwt: localStorage.getItem("token") });
          if (todoState?.isAddTodo) {
             let todotitle = todoInput.current;
             if (todotitle.value) {
@@ -83,6 +86,7 @@ export default function Home() {
                                  classes: "bg-green-500",
                               },
                            });
+                           userDispatch({ type: "SET_JWT", jwt: token });
                         } else {
                            todoDispatch({
                               todoAlert: {
@@ -102,6 +106,8 @@ export default function Home() {
                   todoAlert: { msg: "Ooops! Title is required", classes: "bg-red-500" },
                });
             }
+         } else {
+            router.push("/users/login");
          }
       } catch (error) {
          console.log(error);
@@ -122,8 +128,11 @@ export default function Home() {
 
    useEffect(() => {
       getAllTodos();
-      console.log(todoState.todos.length);
    }, []);
+
+   useEffect(() => {
+      validJWT(router);
+   });
 
    return (
       <div className="">
