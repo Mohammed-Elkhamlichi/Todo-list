@@ -1,7 +1,7 @@
 const Footer = () => {
     const thisYear = new Date().getFullYear();
     return (
-        <footer className="bg-slate-700 z-50 text-yellow-600 py-3 text-center items-center absolute bottom-0 right-0 left-0">
+        <footer className="bg-slate-700 z-50 text-yellow-600 py-3 text-center items-center w-full mt-52 opacity-80">
             <h1 className="text-sm">
                 <span className="font-bold">TodoList</span>
                 <span className="font-bold">
