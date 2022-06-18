@@ -16,7 +16,7 @@ const Navbar = () => {
     return (
         <>
             <nav
-                className={`bg-slate-700 z-50 text-sky-500 flex flex-row justify-start items-center  shadow-md shadow-slate-800`}>
+                className={`bg-slate-700 text-sky-500 flex flex-row justify-start items-center  shadow-md shadow-slate-800`}>
                 <h1 className={`flex-1 m-2   font-bold text-xl text-yellow-500`}>
                     <Link href="/">
                         <a>Todo App</a>
