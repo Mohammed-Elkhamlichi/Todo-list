@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 import { todoInitialState, todoReducer } from "../todos/reducer/todoReducer";
-import { userInitialState, userReducer } from "./reducer/userReducer";
+import { userInitialState, userReducer } from "../users/reducer/userReducer";
 
 // Tood Context api with useReducer Hook
 const TodoContext = createContext();
