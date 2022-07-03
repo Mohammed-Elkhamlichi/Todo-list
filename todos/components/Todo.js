@@ -3,6 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTodoContext, useUserContext } from "../../context/state";
+import apiUrlManager from "../../utils/apiUrlManager";
 
 const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
    const router = useRouter();
@@ -13,8 +14,6 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
    // the checkbox state ( todo completed or not)
    const [isCompletedTodo, setIsCompletedTodo] = useState(true);
 
-   // let apiUrl = "http://localhost:3000/api/v1/todos";
-   let apiUrl = "https://todo-list-mem.vercel.app/api//v1/todos";
    let { _id, title, completed } = todo;
 
    // Delete Todo Function
@@ -24,7 +23,7 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
          const token = localStorage.getItem("token");
          if (token && token.length > 20) {
             axios
-               .delete(`${apiUrl}/${id}`, { headers: { Authorization: `Todo ${token}` } })
+               .delete(`${apiUrlManager('todos/')}/${id}`, { headers: { Authorization: `Todo ${token}` } })
                .then((res) => {
                   todoDispatch({
                      type: "DELETE_TODO",
@@ -51,7 +50,7 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
          if (token && token.length > 20) {
             axios
                .patch(
-                  `${apiUrl}/${_id}`,
+                  `${apiUrlManager('todos/')}/${_id}`,
                   {
                      _id,
                      completed: isCompletedTodo,
@@ -92,9 +91,8 @@ const Todo = ({ todo, completedRef, createTodoAlerts, todoInput }) => {
 
    return (
       <div
-         className={`bg-slate-600 p-2 my-2 flex flex-row justify-between items-center border-solid rounded-tl-lg rounded-bl-lg ${
-            completed ? "border-l-8 border-yellow-400" : "border-l-8 border-slate-500"
-         }`}
+         className={`bg-slate-600 p-2 my-2 flex flex-row justify-between items-center border-solid rounded-tl-lg rounded-bl-lg ${completed ? "border-l-8 border-yellow-400" : "border-l-8 border-slate-500"
+            }`}
          key={_id}>
          <div>
             <input

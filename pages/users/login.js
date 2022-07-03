@@ -4,9 +4,7 @@ import { useRef, useEffect } from "react";
 import { useUserContext } from "../../context/state";
 import Alert from "../../components/Alert";
 import { useRouter } from "next/router";
-
-// let apiUrl = "http://localhost:3000/api/v1/users/login";
-let apiUrl = "https://todo-list-mem.vercel.app/api/v1/users/login";
+import apiUrlManager from "../../utils/apiUrlManager";
 
 const Login = () => {
    const [userState, userDispatch] = useUserContext();
@@ -56,7 +54,7 @@ const Login = () => {
             // if the inputs not empty
             if (emailValue && passwordValue) {
                axios
-                  .post(apiUrl, { user: { email: emailValue.toLowerCase(), password: passwordValue } })
+                  .post(apiUrlManager('users/login/'), { user: { email: emailValue.toLowerCase(), password: passwordValue } })
                   .then(async (res) => {
                      const msg = await res.data.msg;
                      const success = await res.data.success;
@@ -99,9 +97,6 @@ const Login = () => {
          });
       }
    };
-   // useEffect(() => {
-   //    if (localStorage.getItem("token")) router.push("/");
-   // }, []);
 
    return (
       <>

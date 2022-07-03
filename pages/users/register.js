@@ -4,9 +4,8 @@ import axios from "axios";
 import Alert from "../../components/Alert";
 import { useUserContext } from "../../context/state";
 import { useRouter } from "next/router";
+import apiUrlManager from "../../utils/apiUrlManager";
 
-// const apiUrl = "http://localhost:3000/api/v1/users/register";
-let apiUrl = "https://todo-list-mem.vercel.app/api/v1/users/register";
 
 const Register = () => {
    const router = useRouter();
@@ -60,7 +59,7 @@ const Register = () => {
             }
             if (validUserName && validEmail && validPassword) {
                axios
-                  .post(apiUrl, {
+                  .post(apiUrlManager('users/register/'), {
                      user: {
                         username: usernameValue.toLowerCase(),
                         email: emailValue.toLowerCase(),

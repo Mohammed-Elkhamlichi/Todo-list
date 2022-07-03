@@ -1,20 +1,12 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-
 import { useRouter } from "next/router";
-// context API
 import { useTodoContext, useUserContext } from "../context/state";
-// components
 import TodoForm from "../todos/components/TodoForm";
 import TodoList from "../todos/components/TodoList";
 import Alert from "../components/Alert";
-
 import { validJWT } from "../utils/validJWT";
-
-const { setCookies, getCookies, removeCookies, getCookie, checkCookies } = require("cookies-next");
-
-// let apiUrl = "http://localhost:3000/api/v1/todos";
-let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
+import apiUrlManager from "../utils/apiUrlManager";
 
 export default function Home() {
    const router = useRouter();
@@ -43,7 +35,7 @@ export default function Home() {
          const token = localStorage.getItem("token");
          if (token && token.length > 20) {
             axios
-               .get(apiUrl, { headers: { Authorization: `Todo ${token}` } })
+               .get(apiUrlManager('todos/'), { headers: { Authorization: `Todo ${token}` } })
                .then((res) => {
                   const data = res.data;
                   todoDispatch({ type: "GET_TODOS", todos: data.todos });
@@ -70,7 +62,7 @@ export default function Home() {
                if (token && token.length > 20) {
                   axios
                      .post(
-                        apiUrl,
+                        apiUrlManager('todos/'),
                         {
                            title: todotitle.value,
                         },
@@ -132,7 +124,7 @@ export default function Home() {
 
    useEffect(() => {
       validJWT(router);
-   },[]);
+   }, []);
 
    return (
       <div className="">

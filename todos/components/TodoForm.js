@@ -2,10 +2,9 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTodoContext, useUserContext } from "../../context/state";
+import apiUrlManager from "../../utils/apiUrlManager";
 
 const TodoForm = ({ todoInput, handleAddTodoForm }) => {
-   // let apiUrl = "http://localhost:3000/api/v1/todos";
-   let apiUrl = "https://todo-list-mem.vercel.app/api/v1/todos";
 
    const router = useRouter();
 
@@ -22,7 +21,7 @@ const TodoForm = ({ todoInput, handleAddTodoForm }) => {
             if (token && token.length > 20) {
                axios
                   .patch(
-                     `${apiUrl}/${todoState?.todo._id}`,
+                     `${apiUrlManager('todos/')}/${todoState?.todo._id}`,
                      {
                         completed: todoState.todo.completed,
                         title: todoTitle || todoState.todo.title,
