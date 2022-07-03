@@ -5,6 +5,7 @@ import { useUserContext } from "../../context/state";
 import Alert from "../../components/Alert";
 import { useRouter } from "next/router";
 import apiUrlManager from "../../utils/apiUrlManager";
+import { setCookies } from "cookies-next";
 
 const Login = () => {
    const [userState, userDispatch] = useUserContext();
@@ -62,6 +63,7 @@ const Login = () => {
                      const jwt = await res.data.jwt;
                      if (success) {
                         localStorage.setItem("token", jwt);
+                        setCookies('accessToken', jwt)
                         userDispatch({
                            type: "LOGIN",
                            userAlert: { msg, classes: "bg-green-500" },

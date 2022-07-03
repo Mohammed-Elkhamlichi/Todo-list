@@ -118,6 +118,7 @@ const Register = () => {
       <>
          <section className="">
             <form
+               method="POST"
                action=""
                className="bg-slate-700 flex flex-col items-center mt-20 w-11/12 m-auto rounded sm:w-3/4 md:w-2/4"
                onSubmit={(e) => {

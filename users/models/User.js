@@ -25,44 +25,5 @@ const UserSchema = new mongoose.Schema({
     salt: String,
 });
 
-// UserSchema.methods.setPassword = (password, email) => {
-    // this.salt = crypto.randomBytes(16).toString("hex");
-//     let splitEmail = email.split("@");
-//     splitEmail = splitEmail[0];
-//     this.hash = crypto.pbkdf2Sync(password, splitEmail, 10000, 512, "sha512").toString("hex");
-//     return this.hash;
-// };
-
-// UserSchema.methods.validPassword = (password, email) => {
-//     let splitEmail = email.split("@");
-//     splitEmail = splitEmail[0];
-//     let hash = crypto.pbkdf2Sync(password, splitEmail, 10000, 512, "sha512").toString("hex");
-//     return this.hash === hash;
-// };
-
-// UserSchema.methods.generateJWT = (email) => {
-//     var today = new Date();
-//     var exp = new Date(today);
-//     exp.setDate(today.getDate() + 60);
-
-//     return jwt.sign(
-//         {
-//             email,
-//             exp: parseInt(exp.getTime() / 1000),
-//         },
-//         SECRET_KEY
-//     );
-// };
-
-// UserSchema.methods.toAuthJSON = (user, jwt) => {
-//     return {
-//         email: user.email,
-//         token: jwt,
-//     };
-// };
-
-// UserSchema.plugin(uniqueValidator, {
-//     message: "Ooops! is already taken.",
-// });
 
 module.exports = mongoose.models.User || mongoose.model("User", UserSchema);

@@ -26,7 +26,7 @@ const registerHandler = async (req, res) => {
                const isUserExist = await User.findOne({ username, email });
                console.log({ isUserExist });
                // if the user not exist
-               if (!isUserExist) {
+               if (isUserExist === null) {
                   // Set a salt for this User
                   const salt = await crypto.randomBytes(16).toString("hex");
                   console.log({ salt });

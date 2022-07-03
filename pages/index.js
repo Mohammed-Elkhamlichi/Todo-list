@@ -7,6 +7,7 @@ import TodoList from "../todos/components/TodoList";
 import Alert from "../components/Alert";
 import { validJWT } from "../utils/validJWT";
 import apiUrlManager from "../utils/apiUrlManager";
+import { getCookie } from "cookies-next";
 
 export default function Home() {
    const router = useRouter();
@@ -29,10 +30,10 @@ export default function Home() {
       setTimeout(() => todoDispatch({ todoAlert: { msg: null, classes: null } }), 10000);
    };
    // get all Todos Function
-   const getAllTodos = () => {
+   const getAllTodos = async () => {
       try {
 
-         const token = localStorage.getItem("token");
+         const token = await getCookie('accessToken')
          if (token && token.length > 20) {
             axios
                .get(apiUrlManager('todos/'), { headers: { Authorization: `Todo ${token}` } })
