@@ -132,7 +132,7 @@ export default function Home() {
 
    useEffect(() => {
       validJWT(router);
-   });
+   },[]);
 
    return (
       <div className="">
