@@ -10,9 +10,9 @@ import apiUrlManager from "../../utils/apiUrlManager";
 const Register = () => {
    const router = useRouter();
    const [userState, userDispatch] = useUserContext();
-   const emailRef = useRef("");
-   const usernameRef = useRef("");
-   const passwordRef = useRef("");
+   const emailRef = useRef(null);
+   const usernameRef = useRef(null);
+   const passwordRef = useRef(null);
 
    const handleRegisterForm = (e) => {
       try {
