@@ -104,12 +104,13 @@ const Login = () => {
       <>
          <section className="">
             <form
+               method='post'
                action=""
                className="bg-slate-700 flex flex-col items-center mt-20 w-11/12 m-auto rounded sm:w-3/4 md:w-2/4"
                onSubmit={(e) => {
                   handleLoginForm(e);
                }}>
-               <h1 className="text-4xl sm:text-5xl text-white font-bold my-10">Login Form</h1>
+               <h1 className="text-4xl sm:text-5xl text-sky-300 font-bold my-10">Login </h1>
                <Alert msg={userState?.userAlert?.msg ?? ""} classes={userState?.userAlert?.classes ?? ""} />
                <div className="flex flex-col items-center my-5 w-10/12 sm:w-3/4 lg:w-2/4">
                   <div className="my-2 m-auto w-full">

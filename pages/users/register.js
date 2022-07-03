@@ -118,13 +118,13 @@ const Register = () => {
       <>
          <section className="">
             <form
-               method="POST"
+               method="post"
                action=""
                className="bg-slate-700 flex flex-col items-center mt-20 w-11/12 m-auto rounded sm:w-3/4 md:w-2/4"
                onSubmit={(e) => {
                   handleRegisterForm(e);
                }}>
-               <h1 className="text-4xl sm:text-5xl text-white font-bold my-10">Register Form</h1>
+               <h1 className="text-4xl sm:text-5xl text-sky-300 font-bold my-10">Register</h1>
 
                <Alert msg={userState?.userAlert.msg ?? ""} classes={userState?.userAlert.classes ?? ""} />
 

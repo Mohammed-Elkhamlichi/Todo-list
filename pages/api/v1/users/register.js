@@ -20,6 +20,7 @@ const registerHandler = async (req, res) => {
             let email = req.body.user.email,
                username = req.body.user.username,
                password = req.body.user.password;
+               
             // check if the fields not empty
             if (email && username && password) {
                // check if the user is exist or not
